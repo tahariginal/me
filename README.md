@@ -1,5 +1,5 @@
 # taha koulal — portfolio
-
+<a href="https://github.com/oakoudad/badge42"><img src="https://badge.mediaplus.ma/kettlebells/tkoulal" alt="tkoulal's 42 stats" /></a>
 Personal site for Taha Koulal: backend, AI and product engineering.
 Next.js (static export), TypeScript and Tailwind CSS v4. There are no animation or 3D libraries: the point field and the portrait are hand-written WebGL.
 
