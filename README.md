@@ -1,4 +1,4 @@
-# taha koulal — portfolio
+#                                                                                       Taha KOULAL
 <a href="https://github.com/oakoudad/badge42"><img src="https://badge.mediaplus.ma/kettlebells/tkoulal" alt="tkoulal's 42 stats" /></a>
 
 ## Run
