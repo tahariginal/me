@@ -19,33 +19,6 @@ const tone: Record<Line["tone"], string> = {
   accent: "text-accent-light",
 };
 
-// Each character is one pixel, drawn with two full blocks to keep its shape.
-const sonic = [
-  "............BB....BB........",
-  "...........BBBB..BTBB.......",
-  "......BBBBBBBBBBBBBBB.......",
-  "....BBBBBBBBBBBBBBBBBB......",
-  "......BBBBBBWWBBWWBBBB......",
-  "...BBBBBBBBWWWWWWWWBBB......",
-  ".....BBBBBBWWKWWKWWBBBKK....",
-  "..BBBBBBBBBWWKWWKWWBTKKKK...",
-  "....BBBBBBBTTTTTTTTTTKKK....",
-  "......BBBBBTTTTTTTKTTT......",
-  ".....BBBBBBBTTTKKKTTT.......",
-  "........BBBBBTTTTTTB........",
-  ".......WWBBBBBTTBBBBWW......",
-  "......WWWWBBBBBBBBBWWWW.....",
-  ".......WW.BBBBBBBB..WW......",
-  "..........BBB..BBB..........",
-  "........WWWW...WWWW.........",
-  "......RRRRWW..WWRRRR........",
-  ".....RRRRRWW..WWRRRRR.......",
-  ".....WWWWWWW..WWWWWWW.......",
-];
-const pixelColors: Record<string, string> = {
-  B: "#4b8bff", T: "#f1bf8f", W: "#f4f0e8", K: "#111827", R: "#f05252",
-};
-
 const intro = (prompt: string): Line[] => [
   { text: "minishell 1.0 · 42 network", tone: "accent" as const },
   { text: "Same grammar and builtins as the shell in C, modelled in the browser.", tone: "dim" as const },
@@ -193,15 +166,16 @@ export default function MinishellTerminal() {
       </ol>
 
       <div className="shrink-0 border-b border-line px-3 py-3 font-mono">
-        <pre aria-hidden="true" className="select-none text-[6px] leading-none sm:text-[7px]">
-          {sonic.map((row, y) => (
-            <span key={y} className="block">
-              {[...row].map((pixel, x) => <span key={x} style={{ color: pixelColors[pixel] ?? "transparent" }}>██</span>)}
-            </span>
-          ))}
-        </pre>
+        <img
+          src="/img/sonic-terminal.png"
+          alt="White hedgehog pixel art — Sonic, my nickname"
+          width={856}
+          height={803}
+          loading="lazy"
+          decoding="async"
+          className="h-28 w-auto select-none object-contain [image-rendering:pixelated] sm:h-32"
+        />
         <p className="mt-2 text-[0.72rem] text-fg sm:text-[0.8rem]">Sonic — learn fast. Build solid. Ship fast.</p>
-        <p className="sr-only">Sonic the Hedgehog in blue, red and white terminal pixel art. Sonic is my nickname.</p>
       </div>
 
       <div
