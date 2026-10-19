@@ -19,13 +19,17 @@ const tone: Record<Line["tone"], string> = {
   accent: "text-accent-light",
 };
 
-const sonic = String.raw`         /\  /\
-    ____/  \/  \_
-    \           _\
-   __\   /\/\  / o\
-   \    | o  o|\__/
-    /___\  __ /_/
-         '.__.'`;
+const sonic = String.raw`              /\   /\
+         ____/  \_/  \_
+   _____/              \
+   \          .--. .--.  \
+    \____    /   |/   |  |
+    /       |  o |  o |  |__
+   /____    |____|____| /   \  >>
+       /     \        /\___/ >>>
+      /_______\  \___/ /    >>
+               '.___.'
+         S O N I C  //  >>>`;
 
 const intro = (prompt: string): Line[] => [
   { text: "minishell 1.0 · 42 network", tone: "accent" as const },

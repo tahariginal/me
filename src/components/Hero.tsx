@@ -67,6 +67,12 @@ export default function Hero() {
             <span className="text-fg">I turn how a business works into software that works for it.</span> I build agent
             systems and use coding agents to deliver products, from workflow analysis to implementation.
           </p>
+          <p
+            className="intro-fade mt-5 max-w-[34ch] text-[length:var(--type-body)] leading-[1.5] text-fg-2"
+            style={{ "--i": 8 } as React.CSSProperties}
+          >
+            I learn fast, adapt quickly, and ship quickly on a <span className="text-fg">strong engineering foundation.</span>
+          </p>
           <div className="intro-fade mt-[var(--space-title)] flex flex-wrap items-center gap-x-6 gap-y-3" style={{ "--i": 8 } as React.CSSProperties}>
             <Magnetic>
               <a

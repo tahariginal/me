@@ -43,28 +43,28 @@ export default function Manifesto() {
           className="display wrap grid grid-rows-[1fr_auto_auto_auto_1fr] uppercase"
           style={{ opacity: "calc(1 - var(--out) * 0.9)" }}
         >
-          {/* DOM order reads as the thesis; grid rows place products above the line. */}
+          {/* Fast delivery above the line; its engineering foundation underneath. */}
           <span className="row-start-5 flex flex-col items-end overflow-hidden text-right">
             <span className={`${type} pt-[0.06em] text-fg-2`} style={{ transform: "translate3d(0, calc((1 - var(--below)) * -102%), 0)" }}>
-              Systems under
+              Strong
               <br />
-              the surface.
+              foundations.
             </span>
           </span>
           <span className="row-start-1 flex flex-col justify-end overflow-hidden">
             <span className={`${type} pb-[0.02em]`} style={{ transform: "translate3d(0, calc((1 - var(--above)) * 102%), 0)" }}>
-              Products
+              Learn fast.
               <br />
-              above it.
+              Ship fast.
             </span>
           </span>
 
           <span aria-hidden="true" className="label row-start-2 flex h-9 items-end justify-end pb-2.5 text-fg-3" style={{ opacity: "var(--above)" }}>
-            ↑ Interfaces · flows · people
+            ↑ Learn · adapt · deliver
           </span>
           <span aria-hidden="true" className="row-start-3 block h-px origin-left bg-fg" style={{ transform: "scaleX(var(--line))" }} />
           <span aria-hidden="true" className="label row-start-4 flex h-9 items-start pt-2.5 text-fg-3" style={{ opacity: "var(--below)" }}>
-            ↓ Services · data · realtime · agents
+            ↓ Systems · reliability · agents
           </span>
         </h2>
 
