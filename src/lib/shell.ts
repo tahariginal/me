@@ -35,7 +35,7 @@ function projectDoc(p: (typeof projects)[number]) {
     p.lede,
     "",
     `role   ${p.role}`,
-    `stack  ${p.stack.join(", ")}`,
+    ...(p.stack.length ? [`stack  ${p.stack.join(", ")}`] : []),
     ...(p.live ? [`live   ${p.live.href}`] : []),
     ...(p.org ? [`at     ${p.org}`] : []),
     "",

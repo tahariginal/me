@@ -91,6 +91,23 @@ export default function ProjectCase({ project: p, flip }: { project: Project; fl
   };
   const style = <style dangerouslySetInnerHTML={{ __html: focusCss(p) }} />;
 
+  if (p.status === "NDA") {
+    return (
+      <article {...articleProps}>
+        <div className="wrap block-y grid grid-cols-12 gap-x-5 gap-y-5">
+          <p className="label col-span-12 text-fg-3 md:col-span-2">
+            <span className="tabular text-accent">{p.n}</span> / {total}
+          </p>
+          <div className="col-span-12 md:col-span-5">
+            <span className="label inline-block border border-accent/40 px-2 py-1 text-accent-light">NDA · Confidential</span>
+            <h3 id={`t-${p.id}`} className="mt-4 text-[length:var(--type-h3)] font-medium leading-tight tracking-[-0.03em]">{p.title}</h3>
+          </div>
+          <p className="col-span-12 max-w-[42ch] text-[length:var(--type-lede)] leading-relaxed text-fg-2 md:col-span-5">{p.lede}</p>
+        </div>
+      </article>
+    );
+  }
+
   if (p.scale === "minor") {
     return (
       <article {...articleProps}>

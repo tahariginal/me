@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { ease, seg, useScrollProgress } from "@/lib/useScrollProgress";
 
-const type = "block text-[clamp(2.9rem,9.6vw,11.5rem)]";
+const type = "block text-[clamp(2rem,9.6vw,11.5rem)]";
 
 /**
  * The thesis of the site, pinned while the point field collapses edge-on into

@@ -13,7 +13,7 @@ export default function Work() {
           Read from the system up.
         </h2>
         <p data-reveal="fade" className="stack-title col-span-12 max-w-[40ch] text-[length:var(--type-lede)] leading-[1.45] text-fg-2 md:col-span-5">
-          Six projects. For each: what had to work underneath, and what it made possible on top. The last one you can type into.
+          Six public projects and two confidential engagements. Explore the systems behind the work, or try the interactive Minishell.
         </p>
 
         <ol className="stack-block col-span-12 md:col-span-7 md:col-start-6 md:mt-0 md:self-end">
@@ -24,9 +24,12 @@ export default function Work() {
                 className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 py-4 transition-colors duration-300 hover:text-fg sm:grid-cols-[3rem_1fr_1fr_auto]"
               >
                 <span className="label tabular text-fg-3 transition-colors group-hover:text-accent">{p.n}</span>
-                <span className="text-[1.35rem] font-medium leading-none tracking-[-0.03em] transition-colors duration-300 group-hover:text-accent-light">{p.title}</span>
+                <span className="text-[1.35rem] font-medium leading-none tracking-[-0.03em] transition-colors duration-300 group-hover:text-accent-light">
+                  {p.title}
+                  {p.status === "NDA" && <span className="label ml-3 inline-block border border-accent/40 px-2 py-1 align-middle text-accent-light">NDA</span>}
+                </span>
                 <span className="label hidden text-fg-3 sm:block">
-                  {p.status ?? p.kind}
+                  {p.status === "NDA" ? p.kind : p.status ?? p.kind}
                   {p.live && (
                     <span className="ml-3 whitespace-nowrap text-accent">
                       <span className="mr-1.5 inline-block size-1.5 rounded-full bg-accent align-middle" aria-hidden="true" />

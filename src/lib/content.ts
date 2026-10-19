@@ -277,6 +277,19 @@ export const projects: Project[] = [
       },
     ],
   },
+  // Public descriptions deliberately omit client names, stacks and deliverables.
+  {
+    id: "confidential-01", n: "07", title: "Confidential project 01",
+    kind: "Confidential work", status: "NDA", stack: [],
+    lede: "Worked on a project covered by a non-disclosure agreement. Client identity, technical details and deliverables are confidential.",
+    role: "Details confidential", scale: "minor", beats: [],
+  },
+  {
+    id: "confidential-02", n: "08", title: "Confidential project 02",
+    kind: "Confidential work", status: "NDA", stack: [],
+    lede: "Worked on a second project covered by a non-disclosure agreement. Client identity, technical details and deliverables are confidential.",
+    role: "Details confidential", scale: "minor", beats: [],
+  },
 ];
 
 export type Layer = {
