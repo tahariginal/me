@@ -173,7 +173,7 @@ export default function MinishellTerminal() {
           height={803}
           loading="lazy"
           decoding="async"
-          className="h-28 w-auto select-none object-contain [image-rendering:pixelated] sm:h-32"
+          className="h-28 w-auto select-none object-contain mix-blend-screen [image-rendering:pixelated] sm:h-32"
         />
         <p className="mt-2 text-[0.72rem] text-fg sm:text-[0.8rem]">Sonic — learn fast. Build solid. Ship fast.</p>
       </div>
