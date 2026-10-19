@@ -1,10 +1,11 @@
 import type { ComponentType } from "react";
-import type { Project } from "@/lib/content";
+import { projects, type Project } from "@/lib/content";
 import CaseFocus from "./CaseFocus";
 import LivePreview from "./LivePreview";
 import DproDiagram from "./DproDiagram";
 import FactoryDiagram from "./FactoryDiagram";
 import FitDiagram from "./FitDiagram";
+import MinishellTerminal from "./MinishellTerminal";
 import TranscendenceDiagram from "./TranscendenceDiagram";
 import VamoDiagram from "./VamoDiagram";
 
@@ -14,9 +15,10 @@ const diagrams: Record<string, ComponentType> = {
   vamo: VamoDiagram,
   transcendence: TranscendenceDiagram,
   fit: FitDiagram,
+  minishell: MinishellTerminal,
 };
 
-const total = "05";
+const total = String(projects.length).padStart(2, "0");
 
 /**
  * Focus styling per case study. `CaseFocus` sets `data-focus` on the article;
@@ -93,15 +95,15 @@ export default function ProjectCase({ project: p, flip }: { project: Project; fl
     return (
       <article {...articleProps}>
         {style}
-        <div className="wrap grid grid-cols-12 gap-x-5 gap-y-10 py-20 md:py-28">
+        <div className="wrap section-y grid grid-cols-12 gap-x-5 gap-y-[var(--space-block)]">
           <header className="col-span-12 flex flex-col gap-6 md:col-span-4">
             <p className="label text-fg-3">
               <span className="tabular text-accent">{p.n}</span> / {total} — {p.kind}
             </p>
-            <h3 id={`t-${p.id}`} data-reveal="mask" className="display text-[clamp(4rem,9vw,9rem)]">
+            <h3 id={`t-${p.id}`} data-reveal="mask" className="display text-[clamp(3.25rem,8.5vw,9rem)]">
               {p.title}
             </h3>
-            <p data-reveal="fade" className="text-[clamp(1.1rem,1.5vw,1.35rem)] leading-[1.45] text-fg-2">
+            <p data-reveal="fade" className="text-[length:var(--type-lede)] leading-[1.45] text-fg-2">
               {p.lede}
             </p>
             <Meta p={p} />
@@ -110,11 +112,11 @@ export default function ProjectCase({ project: p, flip }: { project: Project; fl
             <div className="aspect-[640/400] w-full">
               <Diagram />
             </div>
-            <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            <div className="mt-[var(--space-row)] grid gap-6 sm:grid-cols-2">
               {p.beats.map((b, i) => (
                 <div key={b.label} data-beat-hover={b.focus} className="border-t border-line pt-4">
                   <Label p={p} i={i} text={b.label} />
-                  <p className="mt-3 text-[1.05rem] leading-[1.5] text-fg">{b.body}</p>
+                  <p className="mt-3 text-[length:var(--type-body)] leading-[1.5] text-fg">{b.body}</p>
                 </div>
               ))}
             </div>
@@ -130,31 +132,31 @@ export default function ProjectCase({ project: p, flip }: { project: Project; fl
   return (
     <article {...articleProps}>
       {style}
-      <header className="wrap grid grid-cols-12 gap-x-5 pb-12 pt-10 md:pb-20 md:pt-14">
+      <header className="wrap head-gap grid grid-cols-12 gap-x-5 pt-[var(--space-block)]">
         <p className="label col-span-12 flex justify-between gap-4 text-fg-3">
           <span>
             <span className="tabular text-accent">{p.n}</span> / {total} — {p.kind}
           </span>
           {p.org && <span className="hidden sm:inline">{p.org}</span>}
         </p>
-        <h3 id={`t-${p.id}`} data-reveal="mask" className="display col-span-12 mt-8 md:mt-12" style={{ fontSize: `max(2rem, ${titleSize})` }}>
+        <h3 id={`t-${p.id}`} data-reveal="mask" className="display stack-title col-span-12" style={{ fontSize: `max(2rem, ${titleSize})` }}>
           {p.title}
         </h3>
         <p
           data-reveal="fade"
-          className="col-span-12 mt-8 max-w-[38ch] text-[clamp(1.2rem,1.9vw,1.75rem)] leading-[1.35] tracking-[-0.015em] text-fg-2 md:col-span-6 md:mt-10"
+          className="stack-title col-span-12 max-w-[38ch] text-[length:var(--type-lede-lg)] leading-[1.35] tracking-[-0.015em] text-fg-2 md:col-span-6"
         >
           {p.lede}
         </p>
-        <div data-reveal="fade" className="col-span-12 mt-8 md:col-span-4 md:col-start-9 md:mt-10" style={{ "--d": 120 } as React.CSSProperties}>
+        <div data-reveal="fade" className="stack-title col-span-12 md:col-span-4 md:col-start-9" style={{ "--d": 120 } as React.CSSProperties}>
           <Meta p={p} />
         </div>
       </header>
 
-      <div className="wrap pb-10 md:grid md:grid-cols-12 md:gap-x-5 md:pb-24">
+      <div className="wrap section-bottom md:grid md:grid-cols-12 md:gap-x-5">
         {/* `contents` on mobile lets the figure stick across the whole case study. */}
         <div className={`contents md:block md:col-span-7 ${flip ? "md:order-2 md:col-start-6" : ""}`}>
-          <div className="sticky top-[var(--nav-h)] z-10 -mx-[var(--gutter)] h-[48svh] bg-bg px-[var(--gutter)] pb-3 pt-2 md:top-[calc(var(--nav-h)+1.5rem)] md:mx-0 md:h-[calc(100svh-var(--nav-h)-3rem)] md:bg-transparent md:p-0">
+          <div className="sticky top-[var(--nav-h)] z-10 -mx-[var(--gutter)] h-[var(--fig-h)] bg-bg px-[var(--gutter)] pb-3 pt-2 md:top-[calc(var(--nav-h)+1.5rem)] md:mx-0 md:p-0 md:bg-transparent">
             <Diagram />
           </div>
         </div>
@@ -164,14 +166,14 @@ export default function ProjectCase({ project: p, flip }: { project: Project; fl
             <div
               key={b.label}
               data-beat={b.focus}
-              className="flex min-h-[46svh] flex-col justify-center py-10 transition-opacity duration-700 md:min-h-[78svh]"
+              className="block-y flex min-h-[34svh] flex-col justify-center transition-opacity duration-700 md:min-h-[78svh]"
             >
               <Label p={p} i={i} text={b.label} />
-              {b.body && <p className="mt-5 text-[clamp(1.3rem,1.85vw,1.7rem)] leading-[1.35] tracking-[-0.02em]">{b.body}</p>}
+              {b.body && <p className="mt-5 text-[length:var(--type-lede-lg)] leading-[1.35] tracking-[-0.02em]">{b.body}</p>}
               {b.points && (
                 <ol className="mt-5">
                   {b.points.map((pt, j) => (
-                    <li key={j} className="grid grid-cols-[2.25rem_1fr] border-t border-line py-4 text-[1.05rem] leading-[1.5] text-fg">
+                    <li key={j} className="grid grid-cols-[2.25rem_1fr] border-t border-line py-4 text-[length:var(--type-body)] leading-[1.5] text-fg">
                       <span className="label tabular pt-1 text-fg-3">{String(j + 1).padStart(2, "0")}</span>
                       {pt}
                     </li>

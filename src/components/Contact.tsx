@@ -20,7 +20,7 @@ export default function Contact() {
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative flex min-h-svh flex-col">
-      <div className="wrap grid flex-1 grid-cols-12 content-center gap-x-5 pb-16 pt-28">
+      <div className="wrap section-top head-gap grid flex-1 grid-cols-12 content-center gap-x-5">
         <p className="label col-span-12 flex flex-wrap justify-between gap-4 text-fg-3">
           <span>
             <span className="text-accent">05</span> / Contact
@@ -31,12 +31,12 @@ export default function Contact() {
           </span>
         </p>
 
-        <h2 id="contact-title" data-reveal="mask" className="display col-span-12 mt-14 text-[clamp(2.4rem,6.2vw,7rem)] md:col-span-11">
+        <h2 id="contact-title" data-reveal="mask" className="display stack-title col-span-12 text-[length:var(--type-h2)] md:col-span-11">
           Have something unclear? <br className="hidden sm:block" />
           Let&apos;s make it work.
         </h2>
 
-        <div className="col-span-12 mt-14 border-t border-line pt-6 md:mt-20">
+        <div className="stack-block col-span-12 border-t border-line pt-6">
           <p className="label text-fg-3">Write to</p>
           <div className="mt-3 flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
             <a
@@ -62,7 +62,7 @@ export default function Contact() {
           </span>
         </div>
 
-        <ul className="col-span-12 mt-12 grid gap-y-6 border-t border-line pt-6 sm:grid-cols-2 md:grid-cols-4">
+        <ul className="stack-block col-span-12 grid gap-y-6 border-t border-line pt-6 sm:grid-cols-2 md:grid-cols-4">
           <li>
             <p className="label text-fg-3">Code</p>
             <a href={person.github.href} target="_blank" rel="noreferrer" className="label link-line mt-2 inline-block text-fg">

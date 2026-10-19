@@ -59,8 +59,18 @@ Where blue appears:
 ## Layout
 
 - 12-column grid, gutter `clamp(1rem, 3.2vw, 2.75rem)`, content capped at 110rem.
+- **One vertical rhythm.** Five steps, defined once in `:root` and used through utilities — nothing else:
+  `--space-section` (section → section, `section-y` / `section-top` / `section-bottom`),
+  `--space-head` (head block → body, `head-gap`), `--space-block` (block → block, `block-y` / `stack-block`),
+  `--space-row` (list rows, `row-y`) and `--space-title` (label → headline → lede, `stack-title`).
+  Each step is a `clamp()`, so the page compresses on a phone and opens up on a desktop without a second set of values.
+- **One type scale.** `--type-h2` for section headlines (`--type-h2-sm` only for the long About headline),
+  `--type-h3` for sub-heads, `--type-lede` / `--type-lede-lg` for ledes, `--type-body` for running body text.
+  In Tailwind they must carry the `length:` type hint, as in `text-[length:var(--type-h2)]`; without it an arbitrary
+  font-size value wrapping a custom property is parsed as a colour and the headline silently falls back to 16px.
+- `--fig-h` is the height of a case study's sticky figure: half the screen on a phone, the viewport minus the nav on a desktop.
 - Each section starts with a `NN / Name` label, then a display headline, then at most a two-line lede.
-- Numbering is structural: sections `00–05`, projects `01–05`, beats `01.1`, layers `L.01`, figures `Fig. 01`.
+- Numbering is structural: sections `00–05`, projects `01–06`, beats `01.1`, layers `L.01`, figures `Fig. 01`.
 
 ## Motion
 
@@ -79,6 +89,7 @@ Each diagram is drawn from the architecture described in the CV. None is a mock 
 - **Vamo**: an identity graph. Teammate-only phone visibility is drawn as accent links; other links are crossed out.
 - **ft_transcendence**: a Pong court with the net as the server, over a sequence diagram of WebSocket events.
 - **FIT**: six signals → context → complete look, with a reuse loop.
+- **Minishell**: not a diagram — the shell itself, modelled in the browser (`src/lib/shell.ts`). Tokenizer, expansion, pipelines, redirections, heredocs and the seven builtins, driven from a real input. The stage strip above the terminal (lex → parse → exec → signals) is what the beats highlight.
 
 While you read, each beat highlights its part of the diagram (`data-beat` ↔ `data-k`).
 
@@ -112,7 +123,7 @@ The site has one environmental layer: a single soft body that the lattice and th
 
 ## Portrait: a TouchDesigner network in a shader
 
-`me.jpeg` (background removed) is sampled into about 21k points on desktop and 10k on mobile. The pipeline mirrors a TD network, and the node strip under the plate is its UI:
+`sonicV2.jpeg` (background removed) is sampled into about 21k points on desktop and 10k on mobile. The pipeline mirrors a TD network, and the node strip under the plate is its UI:
 
 `moviefilein1` → `lumadepth1` (z = brightness) → noise (simplex drift plus slice glitches) → instance points + `binary1` → `feedback1` (brightest of this frame or the decaying, drifting trail) → `out1` (tone map plus scanline).
 

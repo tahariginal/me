@@ -11,14 +11,14 @@ export default function System() {
 
   return (
     <section id="system" aria-labelledby="system-title" className="relative">
-      <div className="wrap grid grid-cols-12 gap-x-5 pb-16 pt-28 md:pb-20 md:pt-40">
+      <div className="wrap section-top head-gap grid grid-cols-12 gap-x-5">
         <p className="label col-span-12 text-fg-3">
           <span className="text-accent">03</span> / System
         </p>
-        <h2 id="system-title" data-reveal="mask" className="display col-span-12 mt-8 text-[clamp(2.6rem,6.6vw,7.5rem)]">
+        <h2 id="system-title" data-reveal="mask" className="display stack-title col-span-12 text-[length:var(--type-h2)]">
           The stack, in cross-section.
         </h2>
-        <p data-reveal="fade" className="col-span-12 mt-8 max-w-[42ch] text-[clamp(1.1rem,1.5vw,1.35rem)] leading-[1.45] text-fg-2 md:col-span-6">
+        <p data-reveal="fade" className="stack-title col-span-12 max-w-[42ch] text-[length:var(--type-lede)] leading-[1.45] text-fg-2 md:col-span-6">
           Grouped by where each piece sits relative to the surface. Select a technology to trace it back to the work.
         </p>
       </div>
@@ -35,7 +35,7 @@ export default function System() {
                     <span data-reveal="line" className="block h-px flex-1 bg-accent" />
                   </div>
                 )}
-                <div className={`grid grid-cols-12 gap-x-5 gap-y-4 py-8 md:py-10 ${i !== 1 ? "border-t border-line" : ""}`}>
+                <div className={`row-y grid grid-cols-12 gap-x-5 gap-y-4 ${i !== 1 ? "border-t border-line" : ""}`}>
                   <div className="col-span-12 md:col-span-4">
                     <h3 className="label text-fg">
                       <span className="tabular text-fg-3">{String(i + 1).padStart(2, "0")}</span>&nbsp;&nbsp;{s.name}
@@ -114,14 +114,14 @@ export default function System() {
         </div>
 
         {/* Method */}
-        <div className="grid grid-cols-12 gap-x-5 pb-10 pt-28 md:pt-36">
+        <div className="section-top grid grid-cols-12 gap-x-5 pb-[var(--space-block)]">
           <div className="col-span-12 md:col-span-3">
             <p className="label text-fg-3">Method</p>
-            <h3 data-reveal="mask" className="mt-4 text-[clamp(1.8rem,3vw,2.75rem)] font-medium leading-[0.95] tracking-[-0.035em]">
+            <h3 data-reveal="mask" className="mt-4 text-[length:var(--type-h3)] font-medium leading-[0.95] tracking-[-0.035em]">
               How I approach a build.
             </h3>
           </div>
-          <ol className="col-span-12 mt-10 grid gap-x-5 sm:grid-cols-2 md:col-span-9 md:mt-0 lg:grid-cols-4">
+          <ol className="stack-block col-span-12 grid gap-x-5 sm:grid-cols-2 md:col-span-9 md:mt-0 lg:grid-cols-4">
             {method.map((m, i) => (
               <li key={m.n} className="relative pb-8 pt-6" data-reveal="fade" style={{ "--d": i * 90 } as React.CSSProperties}>
                 <span data-reveal="line" className="absolute inset-x-0 top-0 block h-px bg-line-2" style={{ "--d": i * 90 } as React.CSSProperties} aria-hidden="true" />
@@ -135,11 +135,11 @@ export default function System() {
         </div>
 
         {/* Strengths */}
-        <div className="grid grid-cols-12 gap-x-5 pb-24 pt-10 md:pb-32">
+        <div className="section-bottom grid grid-cols-12 gap-x-5 pt-[var(--space-block)]">
           <p className="label col-span-12 text-fg-3 md:col-span-3">Engineering strengths</p>
           <ul className="col-span-12 mt-6 grid sm:grid-cols-2 md:col-span-9 md:mt-0 lg:grid-cols-3">
             {strengths.map((s, i) => (
-              <li key={s} className="flex items-baseline gap-4 border-t border-line py-4 pr-4 text-[1.05rem] text-fg">
+              <li key={s} className="flex items-baseline gap-4 border-t border-line py-4 pr-4 text-[length:var(--type-body)] text-fg">
                 <span className="label tabular text-fg-3">{String(i + 1).padStart(2, "0")}</span>
                 {s}
               </li>

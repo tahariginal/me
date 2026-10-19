@@ -472,7 +472,7 @@ export default function Portrait() {
         </div>
       </div>
 
-      <div role="group" aria-label="Portrait network — toggle operators" className="mt-3 flex items-stretch">
+      <div role="group" aria-label="Portrait network — toggle operators" className="mt-3 grid grid-cols-2 gap-1.5 xs:grid-cols-3 sm:flex sm:items-stretch sm:gap-0">
         {network.map((n, i) => {
           const on = n.key ? ops[n.key] : true;
           const body = (
@@ -490,7 +490,7 @@ export default function Portrait() {
           );
           return (
             <Fragment key={n.name}>
-              {i > 0 && <span aria-hidden="true" className={`relative my-auto block h-px w-2 shrink-0 sm:w-3 ${on ? "bg-accent-deep" : "bg-line-2"}`} />}
+              {i > 0 && <span aria-hidden="true" className={`relative my-auto hidden h-px w-2 shrink-0 sm:block sm:w-3 ${on ? "bg-accent-deep" : "bg-line-2"}`} />}
               {n.key ? (
                 <button
                   type="button"
@@ -498,21 +498,21 @@ export default function Portrait() {
                   title={n.describe}
                   aria-label={`${n.name}: ${n.describe}`}
                   onClick={() => toggle(n.key!)}
-                  className={`min-w-0 flex-1 border px-1.5 py-1.5 text-left transition-colors duration-300 hover:border-accent sm:px-2 ${
+                  className={`min-w-0 border px-2 py-2.5 text-left transition-colors duration-300 hover:border-accent sm:flex-1 sm:px-2 sm:py-1.5 ${
                     on ? "border-line-2 bg-fg/[0.03]" : "border-line"
                   }`}
                 >
                   {body}
                 </button>
               ) : (
-                <div className="min-w-0 flex-1 border border-line px-1.5 py-1.5 sm:px-2">{body}</div>
+                <div className="min-w-0 border border-line px-2 py-2.5 sm:flex-1 sm:px-2 sm:py-1.5">{body}</div>
               )}
             </Fragment>
           );
         })}
       </div>
       <p className="label mt-3 flex justify-between gap-4 text-fg-3" aria-hidden="true">
-        <span>Plate 04 — me.jpeg, instanced</span>
+        <span>Plate 04 — sonicV2.jpeg, instanced</span>
         <span className="hidden sm:inline">Move to orbit · toggle operators</span>
       </p>
     </div>

@@ -45,7 +45,7 @@ export default function Hero() {
       </div>
 
       {/* Middle: focus + statement */}
-      <div className="wrap order-3 grid flex-1 grid-cols-1 content-center gap-10 pb-16 pt-10 md:order-2 md:grid-cols-12 md:py-10">
+      <div className="wrap order-3 grid flex-1 grid-cols-1 content-center gap-[var(--space-row)] pb-[var(--space-block)] pt-[var(--space-row)] md:order-2 md:grid-cols-12 md:gap-[var(--space-block)] md:py-[var(--space-block)]">
         <ul className="md:col-span-6 lg:col-span-5" aria-label="Focus">
           {focus.map((f, i) => (
             <li
@@ -61,13 +61,13 @@ export default function Hero() {
 
         <div className="md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
           <p
-            className="intro-fade max-w-[34ch] text-[clamp(1.05rem,1.35vw,1.25rem)] leading-[1.5] text-fg-2"
+            className="intro-fade max-w-[34ch] text-[length:var(--type-lede)] leading-[1.5] text-fg-2"
             style={{ "--i": 7 } as React.CSSProperties}
           >
             <span className="text-fg">I turn unclear ideas into working systems</span> — the services, permissions and agent
             workflows underneath, and the product people use on top.
           </p>
-          <div className="intro-fade mt-8 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ "--i": 8 } as React.CSSProperties}>
+          <div className="intro-fade mt-[var(--space-title)] flex flex-wrap items-center gap-x-6 gap-y-3" style={{ "--i": 8 } as React.CSSProperties}>
             <Magnetic>
               <a
                 href="#work"
@@ -88,10 +88,10 @@ export default function Hero() {
       </div>
 
       {/* Name — first on mobile so identity lands in the first viewport */}
-      <div className="wrap order-2 mt-10 md:order-3 md:mt-0">
+      <div className="wrap order-2 mt-[var(--space-row)] md:order-3 md:mt-0">
         <h1 id="hero-name" className="display select-none font-semibold uppercase tracking-[-0.05em]">
           <span className="sr-only">Taha Koulal</span>
-          <span className="flex flex-col whitespace-nowrap text-[22.5vw] md:flex-row md:justify-between md:text-[min(14.6vw,16rem)]">
+          <span className="flex flex-col whitespace-nowrap text-[20vw] md:flex-row md:justify-between md:text-[min(14.6vw,16rem)]">
             <Letters word="Taha" />
             <Letters word="Koulal" offset={4} />
           </span>

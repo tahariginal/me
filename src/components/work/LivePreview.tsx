@@ -6,7 +6,7 @@ export default function LivePreview({ project: p }: { project: Project }) {
   if (!live) return null;
 
   return (
-    <div className="wrap pb-20 md:pb-28">
+    <div className="wrap section-bottom">
       <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-line pt-6">
         <p className="label flex items-center gap-3 text-fg-3">
           <span className="tabular text-accent">

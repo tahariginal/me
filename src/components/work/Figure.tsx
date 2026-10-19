@@ -22,7 +22,7 @@ export default function Figure({ n, title, caption, viewBox, children }: Props) 
           Live model
         </span>
       </div>
-      <div className="relative min-h-0 flex-1 p-1.5 sm:p-5">
+      <div className="relative min-h-0 flex-1 p-3 sm:p-5">
         <svg viewBox={viewBox} preserveAspectRatio="xMidYMid meet" className="dg size-full overflow-visible" role="img" aria-label={caption}>
           {children}
         </svg>

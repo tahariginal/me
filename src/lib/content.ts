@@ -8,7 +8,7 @@ export const person = {
   name: "Taha Koulal",
   role: "Software engineer",
   focus: "Backend, AI & product engineering",
-  email: "tkoulal.21@gmail.com",
+  email: "tkoulal.tech@gmail.com",
   github: { label: "github.com/tahariginal", href: "https://github.com/tahariginal" },
   cv: "/cv/taha-koulal-cv.pdf",
   location: "Marrakech, Morocco",
@@ -220,6 +220,44 @@ export const projects: Project[] = [
       },
     ],
   },
+  {
+    id: "minishell",
+    n: "06",
+    title: "Minishell",
+    kind: "Unix shell written in C",
+    org: "42 Network (1337)",
+    stack: ["C", "Unix processes", "Signals"],
+    lede: "A working shell: it parses a line the way bash does, then runs it with fork, pipe, dup2 and execve — without leaking a descriptor.",
+    scale: "major",
+    role: "Parsing, execution and signal handling",
+    beats: [
+      {
+        focus: "lex",
+        label: "Context",
+        body: "Everything a shell receives is one flat string. Before anything can run, it has to become tokens — words, operators, and quoted spans that mean themselves.",
+      },
+      {
+        focus: "parse",
+        label: "Problem",
+        body: "Quotes, variable expansion, pipes and redirections all act on the same line, and the order they are resolved in decides what actually runs.",
+      },
+      {
+        focus: "exec",
+        label: "What I built",
+        points: [
+          "A tokeniser that respects single and double quotes, then a parser that turns the line into a pipeline of commands with their redirections.",
+          "Expansion of $VAR and $? after tokenising, never inside single quotes.",
+          "Execution with fork, pipe, dup2 and execve, PATH resolution, and heredocs — with builtins run in the parent when they change its state.",
+          "The builtins the subject asks for: echo -n, cd, pwd, export, unset, env, exit.",
+        ],
+      },
+      {
+        focus: "signals",
+        label: "System",
+        body: "Interactive signal handling: Ctrl-C returns a fresh prompt and status 130, Ctrl-D ends the session, and every descriptor opened for a redirection is closed. The figure is that shell, modelled in the browser — type into it.",
+      },
+    ],
+  },
 ];
 
 export type Layer = {
@@ -292,9 +330,10 @@ export const strata: Stratum[] = [
     name: "Backend & systems",
     note: "Under the surface — state, data, transport",
     items: [
-      { name: "C", used: ["42"] },
+      { name: "C", used: ["42", "06"] },
       { name: "C++", used: ["42"] },
-      { name: "Unix / Linux", used: ["42"] },
+      { name: "Unix / Linux", used: ["42", "06"] },
+      { name: "Processes & signals", used: ["06"] },
       { name: "TCP/IP", used: ["42"] },
       { name: "REST APIs" },
       { name: "WebSockets", used: ["04"] },

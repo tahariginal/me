@@ -50,7 +50,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
-      <body>{children}</body>
+      {/* Extensions (password managers, colour pickers) add attributes to body before hydration. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

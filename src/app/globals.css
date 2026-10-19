@@ -30,7 +30,37 @@
 :root {
   --gutter: clamp(1rem, 3.2vw, 2.75rem);
   --nav-h: 3.5rem;
+
+  /* Vertical rhythm. Four steps, nothing else: sections breathe at --space-section,
+     a head block is separated from its body by --space-head, blocks inside a section
+     by --space-block, list rows by --space-row, and label → headline → lede by
+     --space-title. Every section uses the same steps, so the page scans as one grid. */
+  --space-section: clamp(5.5rem, 10.5vw, 10rem);
+  --space-head: clamp(3.25rem, 6vw, 6rem);
+  --space-block: clamp(2.5rem, 4.5vw, 5rem);
+  --space-row: clamp(1.75rem, 2.6vw, 2.75rem);
+  --space-title: clamp(1.75rem, 2.6vw, 2.5rem);
+
+  /* Height of a case study's sticky figure: a set fraction of the phone screen,
+     the rest of the viewport on a desktop. One value, so every case matches. */
+  --fig-h: 50svh;
+
+  /* Type scale. Section headlines share one size; only the long About headline
+     steps down, and it steps down to the next size on the same scale. */
+  --type-h2: clamp(2.5rem, 6.2vw, 7rem);
+  --type-h2-sm: clamp(2.2rem, 4.8vw, 5.25rem);
+  --type-h3: clamp(1.85rem, 3.2vw, 3rem);
+  --type-lede: clamp(1.1rem, 1.5vw, 1.35rem);
+  --type-lede-lg: clamp(1.2rem, 1.85vw, 1.7rem);
+  --type-body: 1.05rem;
+
   color-scheme: dark;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --fig-h: calc(100svh - var(--nav-h) - 3rem);
+  }
 }
 
 html {
@@ -104,6 +134,32 @@ body {
   &:focus-visible::after {
     transform: scaleX(1);
   }
+}
+
+/* Rhythm utilities — the only vertical spacing a section should reach for. */
+@utility section-y {
+  padding-block: var(--space-section);
+}
+@utility section-top {
+  padding-top: var(--space-section);
+}
+@utility section-bottom {
+  padding-bottom: var(--space-section);
+}
+@utility head-gap {
+  padding-bottom: var(--space-head);
+}
+@utility block-y {
+  padding-block: var(--space-block);
+}
+@utility row-y {
+  padding-block: var(--space-row);
+}
+@utility stack-title {
+  margin-top: var(--space-title);
+}
+@utility stack-block {
+  margin-top: var(--space-block);
 }
 
 @utility wrap {
