@@ -167,13 +167,13 @@ export default function MinishellTerminal() {
 
       <div className="shrink-0 border-b border-line px-3 py-3 font-mono">
         <img
-          src="/img/sonic-terminal.png"
+          src="/img/sonic-terminal-transparent.png"
           alt="White hedgehog pixel art — Sonic, my nickname"
-          width={856}
-          height={803}
+          width={1294}
+          height={1216}
           loading="lazy"
           decoding="async"
-          className="h-28 w-auto select-none object-contain mix-blend-screen [image-rendering:pixelated] sm:h-32"
+          className="h-28 w-auto select-none object-contain [image-rendering:pixelated] sm:h-32"
         />
         <p className="mt-2 text-[0.72rem] text-fg sm:text-[0.8rem]">Sonic — learn fast. Build solid. Ship fast.</p>
       </div>
