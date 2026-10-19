@@ -35,8 +35,8 @@ export default function Portrait() {
   const wrap = useRef<HTMLDivElement>(null);
   const cvs = useRef<HTMLCanvasElement>(null);
   const hud = useRef<{ fps: HTMLSpanElement | null; pts: HTMLSpanElement | null; yaw: HTMLSpanElement | null }>({ fps: null, pts: null, yaw: null });
-  // Default: the photo itself (no luma extrusion) with the binary wall, trails and out.
-  const [ops, setOps] = useState<Ops>({ source: false, depth: false, binary: true, feedback: true });
+  // Show the source photograph by default; moviefilein1 toggles the animated view.
+  const [ops, setOps] = useState<Ops>({ source: true, depth: false, binary: true, feedback: true });
   const opsRef = useRef(ops);
   const invalidate = useRef<() => void>(() => {});
 
@@ -160,7 +160,7 @@ export default function Portrait() {
     const load = () => {
       const img = new Image();
       img.decoding = "async";
-      img.src = "/img/portrait-cut.webp";
+      img.src = "/img/sonic-v2-960.webp";
       img.onload = () => {
         const cols = low ? 118 : 172;
         const rows = Math.round(cols * 1.25);
@@ -436,14 +436,14 @@ export default function Portrait() {
       <div className="border border-line p-2">
         <div ref={wrap} className="relative aspect-[4/5] w-full touch-pan-y overflow-hidden bg-bg">
           <img
-            src="/img/portrait-960.webp"
-            srcSet="/img/portrait-480.webp 480w, /img/portrait-960.webp 960w"
+            src="/img/sonic-v2-960.webp"
+            srcSet="/img/sonic-v2-480.webp 480w, /img/sonic-v2-960.webp 960w"
             sizes="(min-width: 768px) 40vw, 100vw"
             width={960}
             height={1200}
             loading="lazy"
             decoding="async"
-            alt="Portrait of Taha Koulal, smiling, in a white t-shirt"
+            alt="Portrait of Taha Koulal, smiling, wearing glasses and a black hoodie"
             className="absolute inset-0 size-full object-cover"
           />
           <canvas
