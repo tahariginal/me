@@ -14,17 +14,22 @@ export default function About() {
             <span className="text-accent">04</span> / About
           </p>
           <h2 id="about-title" data-reveal="mask" className="display stack-title text-[length:var(--type-h2-sm)]">
-            I like turning unclear ideas into working systems.
+            Understand the work. Build the system.
           </h2>
           <div className="stack-block grid gap-x-5 gap-y-6 lg:grid-cols-7">
             <div className="space-y-5 text-[length:var(--type-lede)] leading-[1.55] text-fg-2 lg:col-span-4" data-reveal="fade">
               <p>
-                I came to software from two directions: <span className="text-fg">systems</span> — C, Unix and networking at
-                1337 — and <span className="text-fg">interactive work</span>, building a VR virtual visit at UM6P.
+                I build <span className="text-fg">agentic AI systems</span> and use coding agents to turn ideas into working
+                products. I learn unfamiliar tools and domains quickly, starting with the problem and the people doing the work.
               </p>
               <p>
-                Now I work where those meet. Access control, workflows, real-time state and agents underneath; flows and
-                interfaces on top. I use AI to move faster, with review gates so judgment stays in the loop.
+                At PHOVA, I analysed how departments operate and built <span className="text-fg">Phova-edge</span> to
+                digitise their workflows. That means translating business needs into system design, planning for growth
+                and reliability, and making everyday tasks simpler.
+              </p>
+              <p>
+                My foundation is C, Unix and networking at 1337, alongside interactive development at UM6P. I bring that
+                engineering perspective to AI: clear permissions, deliberate technical choices and review of what agents produce.
               </p>
             </div>
             <dl className="grid content-start gap-y-4 lg:col-span-3 lg:col-start-5" data-reveal="fade" style={{ "--d": 120 } as React.CSSProperties}>

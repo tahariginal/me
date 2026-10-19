@@ -1,13 +1,12 @@
 /**
- * Every fact on the site lives here and is sourced from taha_titiz_cv.pdf.
- * Copy is rephrased for the web, but no company, metric, technology or
- * outcome appears here that the CV does not support.
+ * Portfolio facts come from the CV and Taha's direct project clarifications.
+ * Keep claims grounded in that experience; do not invent metrics or outcomes.
  */
 
 export const person = {
   name: "Taha Koulal",
-  role: "Software engineer",
-  focus: "Backend, AI & product engineering",
+  role: "Applied AI Engineer",
+  focus: "Agentic systems & product development",
   email: "tkoulal.tech@gmail.com",
   github: { label: "github.com/tahariginal", href: "https://github.com/tahariginal" },
   cv: "/cv/taha-koulal-cv.pdf",
@@ -85,44 +84,44 @@ export const projects: Project[] = [
       {
         focus: "state",
         label: "System",
-        body: "Small, specialised agent teams instead of one general agent — modelled for reliability, accountability and deterministic project execution.",
+        body: "Small, specialised agent teams with explicit responsibilities, persistent state and review gates to keep execution traceable and accountable.",
       },
     ],
   },
   {
     id: "dpro",
     n: "02",
-    title: "DPRO",
-    kind: "Business opportunity platform",
+    title: "Phova-edge",
+    kind: "Business operations platform",
     org: "PHOVA Technology",
     stack: ["Next.js", "Supabase", "RBAC"],
-    lede: "A production platform that carries each business opportunity through sales, technical evaluation, costing, sourcing and delivery.",
+    lede: "A platform built to digitise PHOVA's operations, translating how its departments work into connected workflows from sales through delivery.",
     scale: "major",
-    role: "Software engineering intern — contributor to a production codebase",
+    role: "Software engineering intern — workflow analysis, system design and implementation",
     beats: [
       {
         focus: "pipeline",
         label: "Context",
-        body: "Opportunities move between sales, engineering, sourcing and management. Each team owns a different part of the same record.",
+        body: "I analysed how PHOVA's departments work, including their responsibilities, information needs and handoffs, to translate day-to-day operations into a digital system.",
       },
       {
         focus: "roles",
         label: "Problem",
-        body: "Permissions, notifications and screens have to follow how the work actually moves between people — not duplicate it.",
+        body: "Digitising operations means understanding the work before designing the software: who owns each step, what information they need and how the next department takes over.",
       },
       {
         focus: "rules",
         label: "What I built",
         points: [
-          "Built and improved RBAC, notifications and workflow rules.",
-          "Opportunity management and complex technical interfaces, shaped with business stakeholders.",
-          "Simplified multi-step technical screens by removing duplicated information and aligning them with real operational responsibilities.",
+          "Mapped departmental workflows and translated business requirements into Phova-edge's structure and interfaces.",
+          "Built opportunity management, access control, notifications and workflow rules around operational responsibilities.",
+          "Designed for growth and reliable execution, with clear data boundaries and simpler handoffs between teams.",
         ],
       },
       {
         focus: "screens",
         label: "System",
-        body: "Next.js and Supabase, with access control and workflow rules mapped to operational responsibilities.",
+        body: "Next.js and Supabase, with role-based access and workflow logic organised around departmental responsibilities. The goal: make everyday work simpler and faster while keeping the system maintainable as operations grow.",
       },
     ],
   },
@@ -279,10 +278,10 @@ export const layers: Layer[] = [
     where: "Production",
     role: "Software Engineering Intern",
     body: [
-      "Delivered backend and product features inside an existing codebase, translating operational requirements from sales, engineering, sourcing and management into usable workflows.",
-      "Worked across backend behaviour, access control, notifications, workflows and product UX, coordinating feedback with non-technical stakeholders.",
+      "Built Phova-edge to digitise business operations, starting by analysing how sales, engineering, sourcing and management work and hand information between departments.",
+      "Translated that understanding into system design and implementation: connected workflows, access control, notifications and interfaces shaped with business stakeholders, with scalability and reliability as design priorities.",
     ],
-    tags: ["Backend", "Access control", "Workflows", "Product UX"],
+    tags: ["Business process analysis", "System design", "Workflow digitisation", "Access control"],
   },
   {
     depth: "Interactive",
@@ -343,10 +342,12 @@ export const strata: Stratum[] = [
   },
   {
     id: "ai",
-    name: "AI & automation",
+    name: "Agentic AI & automation",
     note: "Orchestration — agents that act on the system",
     items: [
       { name: "LLM agents", used: ["01"] },
+      { name: "Agent orchestration", used: ["01"] },
+      { name: "Coding agents" },
       { name: "Claude API" },
       { name: "MCP", used: ["01"] },
       { name: "Prompt engineering" },
@@ -357,27 +358,27 @@ export const strata: Stratum[] = [
 ];
 
 export const strengths = [
-  "0-to-1 product development",
-  "Architecture and technical scoping",
-  "RBAC, security and data boundaries",
-  "Workflow and systems design",
-  "Cross-functional collaboration",
-  "AI-assisted delivery with review gates",
+  "Business process analysis & digitisation",
+  "Agent systems & tool integration",
+  "System design for scalability & reliability",
+  "Product delivery with coding agents",
+  "Rapid learning & adaptation",
+  "RBAC, data boundaries & review gates",
 ];
 
-/** The CV's engineering approach, split into its four moves. */
+/** Engineering approach, from understanding operations to delivery. */
 export const method = [
-  { n: "i", title: "Start with the workflow", body: "Begin from the user and the business workflow, not the stack." },
-  { n: "ii", title: "Make ambiguity explicit", body: "Translate unclear needs into explicit priorities." },
+  { n: "i", title: "Understand the business", body: "Learn how teams work, map their responsibilities and handoffs, and identify what slows them down." },
+  { n: "ii", title: "Design for growth", body: "Turn operational needs into clear workflows, data models and system boundaries, planning for scale and maintainability." },
   {
     n: "iii",
-    title: "Secure the foundations",
-    body: "Clear permissions, data boundaries, auditability and review gates.",
+    title: "Engineer for reliability",
+    body: "Choose algorithms and workflow logic for the problem, with clear permissions, failure handling and checks at critical boundaries.",
   },
   {
     n: "iv",
-    title: "Accelerate with AI",
-    body: "Use AI to move faster while engineering judgment and product quality stay central.",
+    title: "Build, check, adapt",
+    body: "Build agent systems and use coding agents to deliver products. Learn the tools each problem needs, verify results and refine with user feedback.",
   },
 ];
 

@@ -19,6 +19,14 @@ const tone: Record<Line["tone"], string> = {
   accent: "text-accent-light",
 };
 
+const sonic = String.raw`         /\  /\
+    ____/  \/  \_
+    \           _\
+   __\   /\/\  / o\
+   \    | o  o|\__/
+    /___\  __ /_/
+         '.__.'`;
+
 const intro = (prompt: string): Line[] => [
   { text: "minishell 1.0 · 42 network", tone: "accent" as const },
   { text: "Same grammar and builtins as the shell in C, modelled in the browser.", tone: "dim" as const },
@@ -164,6 +172,12 @@ export default function MinishellTerminal() {
           </li>
         ))}
       </ol>
+
+      <div className="shrink-0 border-b border-line px-3 py-3 font-mono">
+        <pre aria-hidden="true" className="text-[0.65rem] leading-[1.1] text-accent-light sm:text-[0.72rem]">{sonic}</pre>
+        <p className="mt-2 text-[0.72rem] text-fg sm:text-[0.8rem]">Sonic — learn fast. Build solid. Ship fast.</p>
+        <p className="sr-only">Sonic the Hedgehog in ASCII art. Sonic is my nickname.</p>
+      </div>
 
       <div
         ref={scroller}

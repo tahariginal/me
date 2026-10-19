@@ -2,7 +2,7 @@ import { person } from "@/lib/content";
 import LocalTime from "./LocalTime";
 import Magnetic from "./Magnetic";
 
-const focus = ["Backend systems", "AI agents & automation", "Products from 0 → 1"];
+const focus = ["Agentic AI systems", "Business workflow automation", "Products from 0 → 1"];
 
 function Letters({ word, offset = 0 }: { word: string; offset?: number }) {
   return (
@@ -64,8 +64,8 @@ export default function Hero() {
             className="intro-fade max-w-[34ch] text-[length:var(--type-lede)] leading-[1.5] text-fg-2"
             style={{ "--i": 7 } as React.CSSProperties}
           >
-            <span className="text-fg">I turn unclear ideas into working systems</span> — the services, permissions and agent
-            workflows underneath, and the product people use on top.
+            <span className="text-fg">I turn how a business works into software that works for it.</span> I build agent
+            systems and use coding agents to deliver products, from workflow analysis to implementation.
           </p>
           <div className="intro-fade mt-[var(--space-title)] flex flex-wrap items-center gap-x-6 gap-y-3" style={{ "--i": 8 } as React.CSSProperties}>
             <Magnetic>

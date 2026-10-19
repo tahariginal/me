@@ -19,15 +19,15 @@ const plex = IBM_Plex_Mono({
 });
 
 const description =
-  "Taha Koulal — product-minded software engineer working across backend systems, AI agents and products built from zero.";
+  "Taha Koulal — Applied AI Engineer building agentic systems, digitising business workflows and delivering products with coding agents.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "Taha Koulal — Backend, AI & Product Engineering",
+  title: "Taha Koulal — Applied AI Engineer",
   description,
   authors: [{ name: person.name }],
   openGraph: {
-    title: "Taha Koulal — Systems under the surface. Products above it.",
+    title: "Taha Koulal — Agentic Systems & Product Development",
     description,
     type: "website",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "Taha Koulal" }],
