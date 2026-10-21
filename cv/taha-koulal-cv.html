@@ -6,50 +6,53 @@
   <style>
     @page { size: A4; margin: 11mm 13mm; }
     * { box-sizing: border-box; }
-    body { margin: 0; color: #202b35; font-family: Arial, sans-serif; font-size: 9pt; line-height: 1.32; }
-    header { border-bottom: 2px solid #235c61; padding-bottom: 12px; margin-bottom: 17px; }
+    body { margin: 0; color: #111111; font-family: Arial, sans-serif; font-size: 9pt; line-height: 1.32; }
+    header { border-top: 4px solid #142d50; border-bottom: 1px solid #142d50; padding-top: 13px; padding-bottom: 12px; margin-bottom: 17px; }
     h1 { margin: 0; font-size: 29pt; letter-spacing: 1px; line-height: 1.1; }
-    .role { color: #235c61; font-size: 12pt; margin: 6px 0 8px; font-weight: bold; }
+    .role { color: #142d50; font-size: 12pt; margin: 6px 0 8px; font-weight: bold; }
+    .hook { color: #142d50; font-size: 14pt; font-weight: bold; line-height: 1.25; margin: 12px 0 5px; }
+    .summary { max-width: 175mm; margin: 0; font-size: 9.5pt; line-height: 1.4; }
     .contact { font-size: 9pt; }
     a { color: inherit; text-decoration: none; }
     main { display: grid; grid-template-columns: 53mm 1fr; gap: 7mm; }
-    aside { border-right: 1px solid #d6dfe1; padding-right: 5mm; }
-    h2 { margin: 0 0 8px; font-size: 9.5pt; letter-spacing: 1.2px; color: #235c61; text-transform: uppercase; }
+    aside { border-right: 1px solid #ced5df; padding-right: 5mm; }
+    h2 { margin: 0 0 8px; font-size: 9.5pt; letter-spacing: 1.2px; color: #142d50; text-transform: uppercase; }
     h3 { margin: 0 0 3px; font-size: 10.1pt; line-height: 1.3; }
     p { margin: 0 0 8px; }
     section { margin-bottom: 12px; }
     article { margin-bottom: 10px; break-inside: avoid; }
     ul { padding-left: 13px; margin: 4px 0 0; }
     li { margin-bottom: 4px; }
-    .meta { color: #52646b; font-size: 8.5pt; margin-bottom: 4px; }
+    .meta { color: #263d5b; font-size: 8.5pt; margin-bottom: 4px; }
     .skill { margin-bottom: 9px; }
     .skill strong { display: block; margin-bottom: 2px; }
     .small { font-size: 8.8pt; }
-    footer { border-top: 1px solid #d6dfe1; padding-top: 7px; font-size: 8.5pt; color: #52646b; }
+    footer { border-top: 1px solid #ced5df; padding-top: 7px; font-size: 8.5pt; color: #142d50; }
   </style>
 </head>
 <body>
   <header>
     <h1>TAHA KOULAL</h1>
-    <p class="role">Applied AI Engineer · Agentic systems &amp; product development</p>
+    <p class="role">Applied AI Engineer · Agent systems &amp; product engineering</p>
     <div class="contact"><a href="mailto:tkoulal.tech@gmail.com">tkoulal.tech@gmail.com</a> &nbsp;|&nbsp; <a href="https://github.com/tahariginal">github.com/tahariginal</a> &nbsp;|&nbsp; Marrakech, Morocco</div>
+    <p class="hook">I turn complex workflows into working AI products.</p>
+    <p class="summary">I build across business operations, document intelligence and multi-agent systems — from workflow analysis to backend, interfaces and AI. Grounded in C, Unix and networking.</p>
   </header>
   <main>
     <aside>
       <section>
-        <h2>Profile</h2>
-        <p>I build agentic AI systems and use coding agents to turn ideas into working products. Effective &amp; efficient in how I work, I learn tools and domains quickly, starting with business needs.</p>
-        <p>A foundation in C, Unix and networking informs my system design, permissions and review of agent output.</p>
+        <h2>How I work</h2>
+        <p><strong>Effective &amp; efficient.</strong> Understand the work, design the system, then build and verify. I learn unfamiliar domains quickly and use coding agents with clear permissions and review gates.</p>
       </section>
       <section>
         <h2>Technical skills</h2>
-        <p class="skill"><strong>Applied AI &amp; agents</strong>Agent orchestration, MCP, Claude API, RAG, LangChain, ChromaDB, Sentence Transformers, document AI / OCR, scikit-learn, Random Forest, SHAP, prompt engineering, n8n</p>
+        <p class="skill"><strong>Applied AI &amp; agents</strong>Agent orchestration, MCP, Claude API, RAG, LangChain, ChromaDB, Sentence Transformers, document AI / OCR, scikit-learn, SHAP</p>
         <p class="skill"><strong>Backend &amp; systems</strong>Python, FastAPI, SQLAlchemy, PostgreSQL, REST APIs, JWT, workflow state machines, Supabase / RLS, Docker / Compose, C, C++, Unix / Linux, TCP/IP, WebSockets</p>
         <p class="skill"><strong>Product engineering</strong>TypeScript, JavaScript, React, React Native, Next.js, real-time systems</p>
       </section>
       <section>
         <h2>Strengths</h2>
-        <p>Business process digitisation<br>Scalability &amp; reliability<br>Delivery with coding agents<br>Rapid learning &amp; adaptation<br>RBAC &amp; review gates</p>
+        <p>Business process analysis<br>Workflow digitisation<br>System design &amp; reliability<br>Product delivery from zero<br>RBAC &amp; data boundaries</p>
       </section>
       <section>
         <h2>Education</h2>
@@ -69,11 +72,11 @@
           <h3>PHOVA Technology · Software Engineering Intern</h3>
           <p class="meta">Phova-edge · Business operations &amp; technical AI platform</p>
           <ul>
-            <li>Analysed sales, engineering, sourcing and management workflows and handoffs; translated business needs into system design and digital workflows.</li>
-            <li>Built authentication, user administration, opportunity management, notifications, activity history and departmental SLA tracking, including a role-gated state machine with 12 statuses and 18 transitions.</li>
-            <li>Built the UI/UX design system and most frontend pages; implemented KPI computation. Next.js frontend with a layered FastAPI / async SQLAlchemy backend, PostgreSQL, Alembic and Docker Compose.</li>
-            <li>Built PDF, Excel and Word extraction into structured pump data, with French / English terminology normalisation and OCR-based value localisation for review.</li>
-            <li>Implemented RAG with LangChain, ChromaDB and Sentence Transformers; Random Forest pump classifiers with SHAP explanations, hydraulic checks and configurable language / vision providers.</li>
+            <li>Built Phova-edge around how sales, engineering, sourcing and management work: mapped responsibilities and handoffs, then designed and implemented digital workflows.</li>
+            <li>Made opportunity progression explicit with a role-gated state machine: <strong>12 statuses, 18 transitions</strong>, notifications, activity history and departmental SLA tracking. Built authentication and user administration.</li>
+            <li>Built the design system, most frontend pages and KPI computation across <strong>Next.js, FastAPI and PostgreSQL</strong>, with async SQLAlchemy, Alembic and Docker Compose.</li>
+            <li>Converted PDF, Excel and Word documents into structured pump data; normalised French / English technical terminology and located extracted values with OCR for review.</li>
+            <li>Connected <strong>RAG retrieval, Random Forest predictions and SHAP explanations</strong> to pump / material recommendations, with hydraulic checks and configurable language / vision providers.</li>
           </ul>
         </article>
         <article>
@@ -87,28 +90,27 @@
           <h3>Factory · Multi-agent AI project factory</h3>
           <p class="meta">Claude Code · MCP · Agent orchestration</p>
           <ul>
-            <li>Architected a CEO agent → specialised CTO modes → focused build agents delegation model for evaluating ideas and coordinating execution.</li>
-            <li>Designed permission gates, milestone reviews, persistent state, audit logs, sandboxed execution and SLA-based blocker escalation.</li>
+            <li>Designed an idea-to-build delegation system: a CEO agent evaluates ideas, specialised CTO modes plan execution, and focused build agents carry it out.</li>
+            <li>Made execution traceable through permission gates, milestone reviews, persistent state, audit logs, sandboxing and SLA-based blocker escalation.</li>
           </ul>
         </article>
         <article>
           <h3>Vamo · Football identity mobile product</h3>
           <p class="meta">React Native · Supabase · <a href="https://vamo-l.vercel.app/">vamo-l.vercel.app</a></p>
           <ul>
-            <li>Designed and built player identities, teams, matches, tournaments and the Football Passport, with discovery, creation, attendance and profile history flows.</li>
-            <li>Implemented privacy-aware RLS, including teammate-only phone visibility and secure access to player data.</li>
+            <li>Built a football product from zero: persistent player identities and a Football Passport connecting teams, matches, tournaments, attendance and profile history.</li>
+            <li>Enforced player-data access in Supabase RLS, including teammate-only phone visibility.</li>
           </ul>
         </article>
         <article>
           <h3>Transcendence · Real-time multiplayer platform</h3>
           <p class="meta">React · TypeScript · WebSockets</p>
-          <ul><li>Built authentication, live messaging and synchronised Pong game state; worked on frontend state and session behaviour supporting more than 20 concurrent games.</li></ul>
+          <ul><li>Built authentication, live messaging and synchronised Pong state; implemented frontend state and session behaviour supporting <strong>20+ concurrent games</strong>.</li></ul>
         </article>
         <article>
           <h3>Minishell · Unix shell in C</h3>
-          <ul><li>Built quote-aware tokenisation, parsing, variable expansion, pipelines, redirections, heredocs and builtins using fork, pipe, dup2 and execve, with interactive signal handling and descriptor cleanup.</li></ul>
+          <ul><li>Built a working shell in C: quote-aware parsing, expansion, pipelines, redirections, heredocs and builtins, with Unix process control, interactive signals and descriptor cleanup.</li></ul>
         </article>
-        <p class="small"><strong>FIT — Product concept:</strong> AI wardrobe and daily outfit recommendations using owned clothes, weather and personal preferences.<br><strong>Confidential work:</strong> Two additional projects under NDA; details confidential.</p>
       </section>
       <footer>Available for full-time and early-stage product opportunities</footer>
     </div>
