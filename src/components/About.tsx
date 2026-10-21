@@ -20,7 +20,8 @@ export default function About() {
             <div className="space-y-5 text-[length:var(--type-lede)] leading-[1.55] text-fg-2 lg:col-span-4" data-reveal="fade">
               <p>
                 I build <span className="text-fg">agentic AI systems</span> and use coding agents to turn ideas into working
-                products. I learn unfamiliar tools and domains quickly, starting with the problem and the people doing the work.
+                products. I am <span className="text-fg">effective &amp; efficient</span> in how I work. I learn unfamiliar
+                tools and domains quickly, starting with the problem and the people doing the work.
               </p>
               <p>
                 At PHOVA, I analysed how departments operate and built <span className="text-fg">Phova-edge</span> to
