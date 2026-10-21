@@ -38,7 +38,7 @@ public/
 
 Edit `src/lib/content.ts`. A project's `beats[].focus` must match a `k("...")` group in its diagram under `src/components/work/`.
 
-To replace the CV, overwrite `public/cv/taha-koulal-cv.pdf`.
+To update the CV, edit `cv/taha-koulal-cv.html` and run `bash scripts/build-cv.sh` (requires Google Chrome). This regenerates `public/cv/taha-koulal-cv.pdf` and the root copy, `taha_titiz_cv.pdf`. Keep its claims aligned with `src/lib/content.ts` and the About section.
 
 ## Performance and accessibility
 
