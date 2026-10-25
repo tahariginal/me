@@ -23,19 +23,8 @@ the same vocabulary: points, hairlines, one accent.
 The page is black, graphite, off-white and neutral grey. Blue is an accent that marks
 state, interaction and information in transit. It is never used as a surface.
 
-Tokens live in `@theme` in `src/app/globals.css`. Canvas and WebGL code caches those
-CSS values through `observePalette` in `src/lib/theme.ts`, updating on theme changes.
-
-The navigation theme button cycles System → Light → Dark. System is the default
-and follows OS changes live; explicit choices persist locally and sync across tabs.
-The boot script resolves the theme before paint. CSS also follows the system with
-JavaScript disabled.
-
-Light mode uses warm paper (`#f5f3ee`), charcoal ink (`#202320`), neutral secondary
-text (`#565a56`, `#686c67`) and deeper blue accents (`#245bd6`, `#1d4fc4`, `#1d52c2`).
-Hairlines and textures use ink instead of white. The field uses alpha compositing
-and a quieter opacity on paper; the portrait maps its light-intensity buffer to ink.
-The VR viewer and SVG diagrams follow the same palette, including reduced motion.
+Tokens live in `@theme` in `src/app/globals.css`. Canvas and WebGL code reads the same
+values from `src/lib/theme.ts`.
 
 | Token          | Value                    | Use                                                                 |
 | -------------- | ------------------------ | ------------------------------------------------------------------- |

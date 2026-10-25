@@ -11,7 +11,7 @@ import {
   pointsVertex,
   quadVertex,
 } from "@/lib/portrait-shaders";
-import { observePalette, palette } from "@/lib/theme";
+import { palette } from "@/lib/theme";
 
 type OpKey = "source" | "depth" | "binary" | "feedback";
 type Ops = Record<OpKey, boolean>;
@@ -66,7 +66,7 @@ export default function Portrait() {
       "uTime", "uAspect", "uYaw", "uPitch", "uCols", "uRows", "uSize", "uHover", "uReveal", "uMouse", "uAtlas", "uFg", "uAccent",
     ] as const);
     const uf = uniforms(gl, feedbackProg, ["uCur", "uPrev", "uDecay"] as const);
-    const uo = uniforms(gl, outProg, ["uTex", "uBg", "uRes", "uLight", "uInk", "uAccent"] as const);
+    const uo = uniforms(gl, outProg, ["uTex", "uBg", "uRes"] as const);
 
     gl.useProgram(pointsProg);
     gl.uniform3fv(up.uFg, hexToRgb(palette.fg));
@@ -416,25 +416,7 @@ export default function Portrait() {
     ro.observe(canvas);
     size();
 
-    const stopPalette = observePalette(() => {
-      gl.useProgram(outProg);
-      gl.uniform3fv(uo.uBg, hexToRgb(palette.bg));
-      gl.uniform3fv(uo.uInk, hexToRgb(palette.fg));
-      gl.uniform3fv(uo.uAccent, hexToRgb(palette.accent));
-      gl.uniform1f(uo.uLight, document.documentElement.dataset.theme === "light" ? 1 : 0);
-      // The internal feedback buffer stores light intensity in both themes.
-      gl.useProgram(pointsProg);
-      gl.uniform3fv(up.uFg, hexToRgb("#ece7df"));
-      gl.uniform3fv(up.uAccent, hexToRgb("#3b82f6"));
-      gl.uniform3fv(up.uAccentLight, hexToRgb("#60a5fa"));
-      gl.useProgram(binaryProg);
-      gl.uniform3fv(ub.uFg, hexToRgb("#ece7df"));
-      gl.uniform3fv(ub.uAccent, hexToRgb("#3b82f6"));
-      request();
-    });
-
     return () => {
-      stopPalette();
       cancelAnimationFrame(raf);
       invalidate.current = () => {};
       io.disconnect();
@@ -452,11 +434,7 @@ export default function Portrait() {
   return (
     <div>
       <div className="border border-line p-2">
-        <div
-          ref={wrap}
-          className="relative aspect-[4/5] w-full touch-pan-y overflow-hidden bg-bg"
-          style={ops.source ? { "--color-fg-3": "#a8a39b", "--color-fg-2": "#ece7df" } as React.CSSProperties : undefined}
-        >
+        <div ref={wrap} className="relative aspect-[4/5] w-full touch-pan-y overflow-hidden bg-bg">
           <img
             src="/img/sonic-v2-960.webp"
             srcSet="/img/sonic-v2-480.webp 480w, /img/sonic-v2-960.webp 960w"

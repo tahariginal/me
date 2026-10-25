@@ -45,8 +45,8 @@ export default function FitDiagram() {
           Complete look
         </text>
         {[0, 1, 2].map((i) => (
-          <rect key={i} x={486} y={104 + i * 40} width={114} height={30} fill="var(--color-accent)" fillOpacity={0.04} stroke="var(--color-fg-2)">
-            <animate attributeName="fill-opacity" values="0.04;0.5;0.04" dur="4.2s" begin={`-${(2 - i) * 0.35}s`} repeatCount="indefinite" />
+          <rect key={i} x={486} y={104 + i * 40} width={114} height={30} className="ghost" stroke="var(--color-fg-2)">
+            <animate attributeName="fill" values="rgb(236 231 223 / 0.04);rgb(37 99 235 / 0.5);rgb(236 231 223 / 0.04)" dur="4.2s" begin={`-${(2 - i) * 0.35}s`} repeatCount="indefinite" />
           </rect>
         ))}
         <path id="fit-reuse" d="M543 230 C543 300 200 310 200 40" className="edge" strokeDasharray="2 5" />

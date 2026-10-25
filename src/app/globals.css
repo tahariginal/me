@@ -17,7 +17,6 @@
   --color-accent-deep: #2563eb; /* lines, borders, fills, particles — 3.8:1, not for small text */
   --color-accent-light: #60a5fa; /* highlights, travelling pulses — 7.7:1 */
   --color-accent-glow: rgb(59 130 246 / 0.15); /* tints only */
-  --color-ghost: rgb(236 231 223 / 0.06);
 
   --font-sans: var(--font-space), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex), ui-monospace, "SFMono-Regular", monospace;
@@ -56,39 +55,6 @@
   --type-body: 1.05rem;
 
   color-scheme: dark;
-}
-
-/* Warm paper and ink keep the same restrained, blue-accented vocabulary. */
-:root[data-theme="light"] {
-  --color-bg: #f5f3ee;
-  --color-fg: #202320;
-  --color-fg-2: #565a56;
-  --color-fg-3: #686c67;
-  --color-line: rgb(32 35 32 / 0.12);
-  --color-line-2: rgb(32 35 32 / 0.22);
-  --color-accent: #245bd6;
-  --color-accent-deep: #1d4fc4;
-  --color-accent-light: #1d52c2;
-  --color-accent-glow: rgb(36 91 214 / 0.09);
-  --color-ghost: rgb(32 35 32 / 0.05);
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    --color-bg: #f5f3ee;
-    --color-fg: #202320;
-    --color-fg-2: #565a56;
-    --color-fg-3: #686c67;
-    --color-line: rgb(32 35 32 / 0.12);
-    --color-line-2: rgb(32 35 32 / 0.22);
-    --color-accent: #245bd6;
-    --color-accent-deep: #1d4fc4;
-    --color-accent-light: #1d52c2;
-    --color-accent-glow: rgb(36 91 214 / 0.09);
-    --color-ghost: rgb(32 35 32 / 0.05);
-    color-scheme: light;
-  }
 }
 
 @media (min-width: 48rem) {
@@ -361,7 +327,7 @@ body {
   fill: var(--color-fg);
 }
 .dg .ghost {
-  fill: var(--color-ghost);
+  fill: rgb(236 231 223 / 0.06);
 }
 .dg text.big {
   font-family: var(--font-sans);

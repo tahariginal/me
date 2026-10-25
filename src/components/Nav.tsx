@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { sections, type SectionId } from "@/lib/content";
-import ThemeToggle from "./ThemeToggle";
 
 export default function Nav() {
   const [active, setActive] = useState<SectionId>("index");
@@ -69,54 +68,50 @@ export default function Nav() {
           <span className="hidden text-fg-3 sm:inline">/ 2026</span>
         </a>
 
-        <div className="flex items-center gap-3 sm:gap-5 lg:gap-7">
-          <ul className="hidden items-center gap-5 md:flex lg:gap-7">
-            {sections.map((s) => {
-              const on = s.id === active;
-              return (
-                <li key={s.id}>
-                  <a
-                    href={`#${s.id}`}
-                    aria-current={on ? "location" : undefined}
-                    className={`label group relative flex items-center gap-2 py-2 transition-colors duration-300 ${
-                      on ? "text-fg" : "text-fg-3 hover:text-fg"
+        <ul className="hidden items-center gap-7 md:flex">
+          {sections.map((s) => {
+            const on = s.id === active;
+            return (
+              <li key={s.id}>
+                <a
+                  href={`#${s.id}`}
+                  aria-current={on ? "location" : undefined}
+                  className={`label group relative flex items-center gap-2 py-2 transition-colors duration-300 ${
+                    on ? "text-fg" : "text-fg-3 hover:text-fg"
+                  }`}
+                >
+                  <span className={`tabular transition-colors ${on ? "text-accent" : ""}`}>{s.n}</span>
+                  <span className="link-line">{s.label}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -bottom-px left-0 h-px bg-accent transition-[width] duration-700 ease-[var(--ease-out-expo)] ${
+                      on ? "w-full" : "w-0"
                     }`}
-                  >
-                    <span className={`tabular transition-colors ${on ? "text-accent" : ""}`}>{s.n}</span>
-                    <span className="link-line">{s.label}</span>
-                    <span
-                      aria-hidden="true"
-                      className={`absolute -bottom-px left-0 h-px bg-accent transition-[width] duration-700 ease-[var(--ease-out-expo)] ${
-                        on ? "w-full" : "w-0"
-                      }`}
-                    />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+                  />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
 
-          <ThemeToggle />
-
-          <div className="flex items-center gap-4 md:hidden">
-            <span className="label tabular hidden text-fg-3 sm:inline" aria-hidden="true">
-              <span className="text-accent">{current.n}</span> {current.label}
+        <div className="flex items-center gap-4 md:hidden">
+          <span className="label tabular text-fg-3" aria-hidden="true">
+            <span className="text-accent">{current.n}</span> {current.label}
+          </span>
+          <button
+            ref={menuBtn}
+            type="button"
+            className="label -mr-2 flex h-11 items-center gap-2 px-2 text-fg"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? "Close" : "Menu"}
+            <span aria-hidden="true" className="relative block h-2 w-4">
+              <span className={`absolute left-0 h-px w-4 bg-fg transition-transform duration-500 ${open ? "top-1 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 h-px w-4 bg-fg transition-transform duration-500 ${open ? "top-1 -rotate-45" : "top-2"}`} />
             </span>
-            <button
-              ref={menuBtn}
-              type="button"
-              className="label -mr-2 flex h-11 items-center gap-2 px-2 text-fg"
-              aria-expanded={open}
-              aria-controls="mobile-menu"
-              onClick={() => setOpen((o) => !o)}
-            >
-              {open ? "Close" : "Menu"}
-              <span aria-hidden="true" className="relative block h-2 w-4">
-                <span className={`absolute left-0 h-px w-4 bg-fg transition-transform duration-500 ${open ? "top-1 rotate-45" : "top-0"}`} />
-                <span className={`absolute left-0 h-px w-4 bg-fg transition-transform duration-500 ${open ? "top-1 -rotate-45" : "top-2"}`} />
-              </span>
-            </button>
-          </div>
+          </button>
         </div>
       </nav>
 

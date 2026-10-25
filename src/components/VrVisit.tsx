@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { observePalette, palette, rgba } from "@/lib/theme";
+import { palette, rgba } from "@/lib/theme";
 import { drawEye, project, type Eye, type FrameState } from "@/lib/vr-render";
 import { buildScene, EYE, roomAt, rooms, waypoints } from "@/lib/vr-scene";
 
@@ -335,10 +335,9 @@ export default function VrVisit() {
     });
     ro.observe(canvas);
     size();
-    const stopPalette = observePalette(render);
+    render();
 
     return () => {
-      stopPalette();
       stop();
       io.disconnect();
       ro.disconnect();

@@ -1,6 +1,6 @@
 /**
- * Cached palette for canvas and WebGL. CSS remains the source of truth;
- * read it only when the theme changes, never during animation frames.
+ * Palette for canvas and WebGL code, which cannot read CSS tokens cheaply.
+ * Keep in sync with the @theme block in src/app/globals.css.
  */
 export const palette = {
   bg: "#0c0c0b",
@@ -8,23 +8,7 @@ export const palette = {
   accent: "#3b82f6",
   accentDeep: "#2563eb",
   accentLight: "#60a5fa",
-};
-
-export function observePalette(update: () => void) {
-  const root = document.documentElement;
-  const sync = () => {
-    const css = getComputedStyle(root);
-    for (const key of Object.keys(palette) as (keyof typeof palette)[]) {
-      const token = key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
-      palette[key] = css.getPropertyValue(`--color-${token}`).trim();
-    }
-    update();
-  };
-  sync();
-  const observer = new MutationObserver(sync);
-  observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
-  return () => observer.disconnect();
-}
+} as const;
 
 /** `#rrggbb` → `rgba(r,g,b,a)` for Canvas 2D styles. */
 export const rgba = (hex: string, a: number) => {
