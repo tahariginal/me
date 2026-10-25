@@ -37,12 +37,27 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0c0b",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f3ee" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c0c0b" },
+  ],
+  colorScheme: "light dark",
 };
 
 /* Runs before first paint so reveal states never flash visible→hidden. */
-const bootScript = `document.documentElement.classList.add('js')`;
+const bootScript = `(() => {
+  const root = document.documentElement;
+  root.classList.add('js');
+  let preference = 'system';
+  try {
+    const saved = localStorage.getItem('portfolio-theme');
+    if (saved === 'light' || saved === 'dark') preference = saved;
+  } catch {}
+  root.dataset.themePreference = preference;
+  root.dataset.theme = preference === 'system'
+    ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : preference;
+})()`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

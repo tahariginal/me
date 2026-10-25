@@ -81,8 +81,8 @@ export default function TranscendenceDiagram() {
           20+ concurrent games
         </text>
         {Array.from({ length: 24 }, (_, i) => (
-          <rect key={i} x={24 + i * 24.5} y={520} width={14} height={14} className="ghost" stroke="var(--color-line-2)">
-            <animate attributeName="fill" values="rgb(236 231 223 / 0.06);rgb(236 231 223 / 0.7);rgb(236 231 223 / 0.06)" dur={`${1.6 + (i % 5) * 0.35}s`} begin={`-${(i * 0.37) % 2}s`} repeatCount="indefinite" />
+          <rect key={i} x={24 + i * 24.5} y={520} width={14} height={14} fill="var(--color-fg)" fillOpacity={0.06} stroke="var(--color-line-2)">
+            <animate attributeName="fill-opacity" values="0.06;0.7;0.06" dur={`${1.6 + (i % 5) * 0.35}s`} begin={`-${(i * 0.37) % 2}s`} repeatCount="indefinite" />
           </rect>
         ))}
       </g>

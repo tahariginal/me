@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { energy } from "@/lib/energy";
 import { fieldFragment, fieldVertex } from "@/lib/field-shaders";
 import { createProgram, hexToRgb, isLowPower, prefersReducedMotion, uniforms } from "@/lib/gl";
-import { palette } from "@/lib/theme";
+import { observePalette, palette } from "@/lib/theme";
 
 type State = {
   pitch: number;
@@ -195,11 +195,21 @@ function start(canvas: HTMLCanvasElement): (() => void) | undefined {
 
   gl.disable(gl.DEPTH_TEST);
   gl.enable(gl.BLEND);
-  gl.blendFunc(gl.ONE, gl.ONE);
-  gl.clearColor(12 / 255, 12 / 255, 11 / 255, 1);
-  gl.uniform3fv(u.uFg, hexToRgb(palette.fg));
-  gl.uniform3fv(u.uAccent, hexToRgb(palette.accent));
-  gl.uniform3fv(u.uAccentLight, hexToRgb(palette.accentLight));
+  let fieldContrast = 1;
+  const updateColors = () => {
+    gl.useProgram(prog);
+    const light = document.documentElement.dataset.theme === "light";
+    fieldContrast = light ? 0.45 : 1;
+    gl.blendFunc(gl.ONE, light ? gl.ONE_MINUS_SRC_ALPHA : gl.ONE);
+    const [r, g, b] = hexToRgb(palette.bg);
+    gl.clearColor(r, g, b, 1);
+    gl.uniform3fv(u.uFg, hexToRgb(palette.fg));
+    gl.uniform3fv(u.uAccent, hexToRgb(palette.accent));
+    gl.uniform3fv(u.uAccentLight, hexToRgb(palette.accentLight));
+  };
+  // The reduced-motion path draws only on demand; theme changes redraw it too.
+  let redrawTheme = () => {};
+  const stopPalette = observePalette(() => { updateColors(); redrawTheme(); });
 
   // Atmosphere: a tiny Canvas 2D (1/8 of the viewport) stretched by CSS over the
   // lattice. The haze is soft by nature, so the compositor's upscale is the blur.
@@ -207,8 +217,6 @@ function start(canvas: HTMLCanvasElement): (() => void) | undefined {
   const actx = atmos?.getContext("2d") ?? null;
   const SCALE = low ? 10 : 8;
   const rgb = (hex: string) => hexToRgb(hex).map((c) => Math.round(c * 255)).join(",");
-  const deep = rgb(palette.accentDeep);
-  const bright = rgb(palette.accent);
 
   // ---- geometry ---------------------------------------------------------
   let W = 0;
@@ -390,6 +398,8 @@ function start(canvas: HTMLCanvasElement): (() => void) | undefined {
   /** The blob as layered radial light: a stretched main body and its trail, with a faint rim. */
   const paintAtmosphere = (t: number) => {
     if (!actx || !atmos) return;
+    const deep = rgb(palette.accentDeep);
+    const bright = rgb(palette.accent);
     actx.setTransform(1, 0, 0, 1, 0, 0);
     actx.clearRect(0, 0, atmos.width, atmos.height);
     if (blob.i < 0.01 || blob.r < 1) return;
@@ -448,7 +458,7 @@ function start(canvas: HTMLCanvasElement): (() => void) | undefined {
     gl.uniform1f(u.uAmp, cur.amp);
     gl.uniform1f(u.uFreq, cur.freq);
     gl.uniform1f(u.uFlatten, cur.flatten);
-    gl.uniform1f(u.uAlpha, cur.alpha * (coarse ? 1.35 : 1));
+    gl.uniform1f(u.uAlpha, cur.alpha * fieldContrast * (coarse ? 1.35 : 1));
     gl.uniform1f(u.uDrift, drift);
     gl.uniform1f(u.uPulse, pulse);
     gl.uniform1f(u.uVel, mouse.vel);
@@ -558,9 +568,11 @@ function start(canvas: HTMLCanvasElement): (() => void) | undefined {
       draw(time);
     };
     still();
+    redrawTheme = still;
     window.addEventListener("scroll", still, { passive: true });
     window.addEventListener("resize", still);
     return () => {
+      stopPalette();
       ro.disconnect();
       window.removeEventListener("scroll", still);
       window.removeEventListener("resize", still);
@@ -587,6 +599,7 @@ function start(canvas: HTMLCanvasElement): (() => void) | undefined {
   raf = requestAnimationFrame(frame);
 
   return () => {
+    stopPalette();
     cancelAnimationFrame(raf);
     ro.disconnect();
     window.removeEventListener("resize", resize);

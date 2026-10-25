@@ -4,8 +4,8 @@ import VrVisit from "./VrVisit";
 /* Deeper layers carry a denser point texture — the same lattice idea as the field. */
 const texture = [
   undefined,
-  "radial-gradient(rgb(236 231 223 / 0.07) 1px, transparent 1.2px) 0 0 / 22px 22px",
-  "radial-gradient(rgb(236 231 223 / 0.09) 1px, transparent 1.2px) 0 0 / 11px 11px",
+  "radial-gradient(color-mix(in srgb, var(--color-fg) 7%, transparent) 1px, transparent 1.2px) 0 0 / 22px 22px",
+  "radial-gradient(color-mix(in srgb, var(--color-fg) 9%, transparent) 1px, transparent 1.2px) 0 0 / 11px 11px",
 ];
 
 export default function Experience() {

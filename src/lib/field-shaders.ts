@@ -171,10 +171,10 @@ void main() {
     float head = fract(uClock * 0.14 + vPhase);
     float pulse = smoothstep(0.09, 0.0, abs(vT - head));
     float a = vCol.a * (0.3 + pulse * 1.8);
-    gl_FragColor = vec4(mix(vCol.rgb, vPulseCol, pulse) * a, 1.0);
+    gl_FragColor = vec4(mix(vCol.rgb, vPulseCol, pulse) * a, a);
     return;
   }
   vec2 c = gl_PointCoord - 0.5;
   float a = smoothstep(0.25, 0.04, dot(c, c));
-  gl_FragColor = vec4(vCol.rgb * vCol.a * a, 1.0);
+  gl_FragColor = vec4(vCol.rgb * vCol.a * a, vCol.a * a);
 }`;

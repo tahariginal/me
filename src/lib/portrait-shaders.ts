@@ -205,10 +205,19 @@ precision mediump float;
 varying vec2 vUv;
 uniform sampler2D uTex;
 uniform vec3 uBg;
+uniform float uLight;
+uniform vec3 uInk;
+uniform vec3 uAccent;
 uniform vec2 uRes;
 void main() {
   vec3 c = texture2D(uTex, vUv).rgb;
   c = 1.0 - exp(-c * 1.6);
   float scan = 0.94 + 0.06 * sin(vUv.y * uRes.y * 1.5708);
-  gl_FragColor = vec4(uBg + c * scan, 1.0);
+  if (uLight > 0.5) {
+    float strength = max(max(c.r, c.g), c.b);
+    float blue = clamp((c.b - c.r) / max(strength, 0.001) * 1.5, 0.0, 1.0);
+    gl_FragColor = vec4(mix(uBg, mix(uInk, uAccent, blue), clamp(strength * 1.4, 0.0, 1.0) * scan), 1.0);
+  } else {
+    gl_FragColor = vec4(uBg + c * scan, 1.0);
+  }
 }`;
