@@ -38,7 +38,16 @@ export default function Portrait() {
   // Show the source photograph by default; moviefilein1 toggles the animated view.
   const [ops, setOps] = useState<Ops>({ source: true, depth: false, binary: true, feedback: true });
   const opsRef = useRef(ops);
+  const [gather, setGather] = useState(false);
+  const [drift, setDrift] = useState(0.35);
+  const gatherRef = useRef({ active: false, drift: 0.35, started: 0 });
   const invalidate = useRef<() => void>(() => {});
+
+  useEffect(() => {
+    gatherRef.current.active = gather && !ops.source;
+    gatherRef.current.drift = drift;
+    invalidate.current();
+  }, [gather, drift, ops.source]);
 
   useEffect(() => {
     opsRef.current = ops;
@@ -60,7 +69,7 @@ export default function Portrait() {
     const reduced = prefersReducedMotion();
     const low = isLowPower();
     const up = uniforms(gl, pointsProg, [
-      "uTime", "uAspect", "uAssemble", "uDepth", "uYaw", "uPitch", "uSize", "uHover", "uVel", "uOcclude", "uMouse", "uFg", "uAccent", "uAccentLight",
+      "uTime", "uAspect", "uAssemble", "uDepth", "uYaw", "uPitch", "uSize", "uHover", "uVel", "uOcclude", "uMouse", "uFg", "uAccent", "uAccentLight", "uGather", "uGatherTime", "uDrift",
     ] as const);
     const ub = uniforms(gl, binaryProg, [
       "uTime", "uAspect", "uYaw", "uPitch", "uCols", "uRows", "uSize", "uHover", "uReveal", "uMouse", "uAtlas", "uFg", "uAccent",
@@ -229,6 +238,9 @@ export default function Portrait() {
       gl.enableVertexAttribArray(aFade);
       gl.vertexAttribPointer(aFade, 1, gl.FLOAT, false, 0, 0);
       gl.uniform1f(up.uTime, s.time);
+      gl.uniform1f(up.uGather, gatherRef.current.active ? 1 : 0);
+      gl.uniform1f(up.uGatherTime, reduced ? 10 : (performance.now() - gatherRef.current.started) / 1000);
+      gl.uniform1f(up.uDrift, gatherRef.current.drift);
       gl.uniform1f(up.uAspect, canvas.width / canvas.height);
       gl.uniform1f(up.uAssemble, s.assemble);
       gl.uniform1f(up.uDepth, s.depth);
@@ -361,7 +373,7 @@ export default function Portrait() {
         frames = 0;
         fpsClock = now;
       }
-      if (visible) raf = requestAnimationFrame(step);
+      if (visible && !o.source) raf = requestAnimationFrame(step);
     };
 
     function request() {
@@ -430,6 +442,12 @@ export default function Portrait() {
   }, []);
 
   const toggle = (key: OpKey) => setOps((o) => ({ ...o, [key]: !o[key] }));
+  const style = ops.source ? "normal" : gather ? "gather" : "points";
+  const selectStyle = (next: "normal" | "points" | "gather") => {
+    setGather(next === "gather");
+    gatherRef.current.started = performance.now();
+    setOps({ source: next === "normal", depth: next === "gather", binary: next === "points", feedback: next !== "normal" });
+  };
 
   return (
     <div>
@@ -472,6 +490,37 @@ export default function Portrait() {
         </div>
       </div>
 
+      <fieldset className="mt-4 border border-line p-3 sm:p-4">
+        <legend className="label px-2 text-fg-3">Photo style</legend>
+        <div className="grid grid-cols-3 gap-2">
+          {([ ["normal", "Normal"], ["points", "Points"], ["gather", "Gather"] ] as const).map(([value, label]) => (
+            <label key={value} className={`relative flex min-h-11 cursor-pointer items-center justify-center gap-2 border px-2 py-3 transition-colors hover:border-accent ${style === value ? "border-accent bg-accent/[0.08] text-fg" : "border-line text-fg-2"}`}>
+              <input type="radio" name="portrait-style" value={value} checked={style === value} onChange={() => selectStyle(value)} className="peer sr-only" />
+              <span className="pointer-events-none absolute inset-0 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-accent" />
+              <span aria-hidden="true" className={`size-1.5 rounded-full ${style === value ? "bg-accent" : "border border-fg-3"}`} />
+              <span className="label">{label}</span>
+            </label>
+          ))}
+        </div>
+        <p className="mt-3 text-sm leading-relaxed text-fg-2">
+          {style === "normal" ? "The original photo. A little room to experiment below." : style === "gather" ? "A portrait in particles. Move across it to explore the depth." : "A point-cloud portrait. Move to orbit; explore the controls below."}
+        </p>
+        {style === "gather" && (
+          <div className="mt-4 border-t border-line pt-4">
+            <div className="flex flex-wrap items-center gap-4">
+              <label className="flex min-w-0 flex-1 items-center gap-3">
+                <span className="label text-fg-2">Drift</span>
+                <input type="range" min="0" max="100" value={Math.round(drift * 100)} onChange={(e) => setDrift(Number(e.target.value) / 100)} className="min-w-0 flex-1 accent-accent" />
+                <span className="label tabular w-7 text-fg-3">{Math.round(drift * 100)}</span>
+              </label>
+              <button type="button" onClick={() => { gatherRef.current.started = performance.now(); invalidate.current(); }} className="label min-h-11 border border-line-2 px-3 text-fg hover:border-accent">Gather again ↗</button>
+            </div>
+            <p className="mt-3 text-xs text-fg-3">Inspired by <a href="https://gather.be-of-dao.com/" target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-fg">Gather · 聚 by DAO</a>.</p>
+          </div>
+        )}
+      </fieldset>
+
+      <div hidden={style !== "points"}>
       <div role="group" aria-label="Portrait network — toggle operators" className="mt-3 grid grid-cols-2 gap-1.5 xs:grid-cols-3 sm:flex sm:items-stretch sm:gap-0">
         {network.map((n, i) => {
           const on = n.key ? ops[n.key] : true;
@@ -510,6 +559,7 @@ export default function Portrait() {
             </Fragment>
           );
         })}
+      </div>
       </div>
       <p className="label mt-3 flex justify-between gap-4 text-fg-3" aria-hidden="true">
         <span>Plate 04 — sonicV2.jpeg, instanced</span>

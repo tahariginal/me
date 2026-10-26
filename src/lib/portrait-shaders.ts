@@ -36,6 +36,9 @@ uniform float uSize;
 uniform float uHover;
 uniform float uVel;
 uniform float uOcclude; // 1: silhouette pass that hides the binary wall behind the head
+uniform float uGather;
+uniform float uGatherTime;
+uniform float uDrift;
 uniform vec2 uMouse;
 uniform vec3 uFg;
 uniform vec3 uAccent;
@@ -73,6 +76,17 @@ void main() {
   float tick = floor(t * 1.2);
   float glitch = step(0.982, fract(sin(band * 12.9898 + tick * 78.233) * 43758.5453));
   face.x += glitch * 0.028 * sign(sin(band * 3.1 + tick));
+
+  if (uGather > 0.5) {
+    // An original scatter-to-portrait treatment inspired by Gather's particle studies.
+    float settle = smoothstep(s * 0.65, 2.4 + s * 0.65, uGatherTime);
+    vec3 cloud = vec3(sin(s * 317.1), cos(s * 193.7), sin(s * 79.3)) * 1.35;
+    face *= 1.25;
+    float drift = uDrift * (0.025 + 0.09 * smoothstep(0.45, 1.0, u));
+    face += vec3(sin(t * 0.7 + s * 41.0), cos(t * 0.5 + s * 31.0), sin(t * 0.6 + s * 17.0)) * drift;
+    face = mix(cloud, face, settle);
+    a = 1.0;
+  }
 
   vec3 p = orbit(mix(plane, face, a), uYaw, uPitch);
   vec2 ndc = toNdc(p, uAspect) + (d / max(length(d), 1e-4)) * fall * 0.012 * vec2(1.0 / uAspect, 1.0);
