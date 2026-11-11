@@ -70,7 +70,7 @@ Where blue appears:
   font-size value wrapping a custom property is parsed as a colour and the headline silently falls back to 16px.
 - `--fig-h` is the height of a case study's sticky figure: half the screen on a phone, the viewport minus the nav on a desktop.
 - Each section starts with a `NN / Name` label, then a display headline, then at most a two-line lede.
-- Numbering is structural: sections `00–05`, projects `01–06`, beats `01.1`, layers `L.01`, figures `Fig. 01`.
+- Numbering is structural: sections `00–05`, projects `01–09`, beats `01.1`, layers `L.01`, figures `Fig. 01`.
 
 ## Motion
 
@@ -85,6 +85,7 @@ Where blue appears:
 Each diagram is drawn from the architecture described in the CV. None is a mock screenshot.
 
 - **Factory**: CEO agent → permission gate → CTO modes → sandboxed build agents → milestone review, with an audit rail and an SLA escalation loop.
+- **Mobile_factory**: you → ring lock (one point per PIN digit) → dashboard → the always-on VM. Inside it, Sonic assigns tasks to five specialists (the Scout runs on a clock), every tool call meets the permission policy (allow / never / money asks you, up the approval line in blue), and every action rides the event stream back to the dashboard.
 - **DPRO**: one opportunity record moving through five stages, a notification bus to four roles, and a before/after of the simplified screens.
 - **Vamo**: an identity graph. Teammate-only phone visibility is drawn as accent links; other links are crossed out.
 - **ft_transcendence**: a Pong court with the net as the server, over a sequence diagram of WebSocket events.

@@ -47,8 +47,8 @@ export type Project = {
   beats: Beat[];
   role: string;
   scale: "major" | "minor";
-  /** A live product visitors can open in a new tab. */
-  live?: { href: string; label: string };
+  /** A live product visitors can open in a new tab. `cta` is the button text (default: "Visit landing page"). */
+  live?: { href: string; label: string; cta?: string };
 };
 
 export const projects: Project[] = [
@@ -89,8 +89,60 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: "dpro",
+    id: "mobile-factory",
     n: "02",
+    title: "Mobile_factory",
+    kind: "Autonomous AI app factory",
+    status: "In development",
+    stack: ["Claude Agent SDK", "Node.js", "TypeScript", "React", "Vite", "Server-Sent Events", "Oracle Cloud VM", "Vercel"],
+    lede: "A crew of AI agents that finds, validates and builds mobile apps around the clock, while I watch and steer them live from my phone.",
+    scale: "major",
+    role: "Designed and built — agent runtime, factory board, access control, dashboard and hosting",
+    live: {
+      href: "https://sonic-station.vercel.app/",
+      label: "sonic-station.vercel.app",
+      cta: "Open dashboard",
+    },
+    beats: [
+      {
+        focus: "remote",
+        label: "Context",
+        body: "Claude Code runs headless on a cloud VM, 24/7. A dashboard on Vercel lets me follow and steer the agents from any phone or laptop.",
+      },
+      {
+        focus: "gate",
+        label: "Problem",
+        body: "Agents that work alone need real freedom, but some calls still belong to a human. And the work has to keep going when no browser is open.",
+      },
+      {
+        focus: "crew",
+        label: "What I built",
+        points: [
+          "A factory board: a boss agent, Sonic, turns goals into projects and assigns tasks to five specialists: Scout, Strategist, App builder, Backend, and Release & QA.",
+          "Each agent loads only its own skills and keeps its own notebook. Each task is its own Claude Code job, so it survives restarts and can resume its session.",
+          "A permission policy: agents have full access to their machine, the server's keys stay out of reach, and anything that spends money goes to me for approval, with a deadline.",
+          "A Scout that collects App Store charts every five hours without using Claude, then rates up to three ideas, each claim with a source and a date.",
+        ],
+      },
+      {
+        focus: "stream",
+        label: "System",
+        body: "Every agent action becomes one typed event, streamed to the dashboard over Server-Sent Events. A dropped connection gets back exactly what it missed.",
+      },
+      {
+        focus: "access",
+        label: "Access",
+        points: [
+          "No email or password. A browser is paired once with a one-time code from the server, then opened with an 8-digit PIN.",
+          "Two wrong PINs lock PIN entry on the server until a single-use emailed link is confirmed. The lock never stops running agents.",
+          "The browser never sees a token or a key: only HttpOnly, SameSite=Strict cookies, served through the dashboard's own origin.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "dpro",
+    n: "03",
     title: "Phova-edge",
     kind: "Business operations & technical AI platform",
     org: "PHOVA Technology",
@@ -147,7 +199,7 @@ export const projects: Project[] = [
   },
   {
     id: "vamo",
-    n: "03",
+    n: "04",
     title: "Vamo",
     kind: "Football identity mobile product",
     stack: ["React Native", "Supabase", "Row-level security"],
@@ -187,7 +239,7 @@ export const projects: Project[] = [
   },
   {
     id: "transcendence",
-    n: "04",
+    n: "05",
     title: "Transcendence",
     kind: "Real-time multiplayer platform",
     stack: ["React", "TypeScript", "WebSockets"],
@@ -218,7 +270,7 @@ export const projects: Project[] = [
   },
   {
     id: "fit",
-    n: "05",
+    n: "06",
     title: "FIT",
     kind: "AI wardrobe and outfit app",
     status: "Product concept",
@@ -241,7 +293,7 @@ export const projects: Project[] = [
   },
   {
     id: "minishell",
-    n: "06",
+    n: "07",
     title: "Minishell",
     kind: "Unix shell written in C",
     org: "42 Network (1337)",
@@ -279,13 +331,13 @@ export const projects: Project[] = [
   },
   // Public descriptions deliberately omit client names, stacks and deliverables.
   {
-    id: "confidential-01", n: "07", title: "Confidential project 01",
+    id: "confidential-01", n: "08", title: "Confidential project 01",
     kind: "Confidential work", status: "NDA", stack: [],
     lede: "Worked on a project covered by a non-disclosure agreement. Client identity, technical details and deliverables are confidential.",
     role: "Details confidential", scale: "minor", beats: [],
   },
   {
-    id: "confidential-02", n: "08", title: "Confidential project 02",
+    id: "confidential-02", n: "09", title: "Confidential project 02",
     kind: "Confidential work", status: "NDA", stack: [],
     lede: "Worked on a second project covered by a non-disclosure agreement. Client identity, technical details and deliverables are confidential.",
     role: "Details confidential", scale: "minor", beats: [],
@@ -350,12 +402,12 @@ export const strata: Stratum[] = [
     name: "Product engineering",
     note: "Above the surface — what people touch",
     items: [
-      { name: "TypeScript", used: ["04"] },
+      { name: "TypeScript", used: ["02", "05"] },
       { name: "JavaScript" },
-      { name: "React", used: ["04"] },
-      { name: "React Native", used: ["03", "05"] },
-      { name: "Next.js", used: ["02"] },
-      { name: "Real-time systems", used: ["04"] },
+      { name: "React", used: ["02", "05"] },
+      { name: "React Native", used: ["04", "06"] },
+      { name: "Next.js", used: ["03"] },
+      { name: "Real-time systems", used: ["05"] },
     ],
   },
   {
@@ -363,21 +415,21 @@ export const strata: Stratum[] = [
     name: "Backend & systems",
     note: "Under the surface — state, data, transport",
     items: [
-      { name: "C", used: ["42", "06"] },
+      { name: "C", used: ["42", "07"] },
       { name: "C++", used: ["42"] },
-      { name: "Unix / Linux", used: ["42", "06"] },
-      { name: "Processes & signals", used: ["06"] },
+      { name: "Unix / Linux", used: ["42", "07"] },
+      { name: "Processes & signals", used: ["07"] },
       { name: "TCP/IP", used: ["42"] },
-      { name: "Python", used: ["02"] },
-      { name: "FastAPI", used: ["02"] },
-      { name: "SQLAlchemy", used: ["02"] },
-      { name: "REST APIs", used: ["02"] },
-      { name: "WebSockets", used: ["04"] },
-      { name: "PostgreSQL", used: ["02"] },
-      { name: "JWT authentication", used: ["02"] },
-      { name: "Workflow state machines", used: ["02"] },
-      { name: "Supabase", used: ["03"] },
-      { name: "Docker / Compose", used: ["02"] },
+      { name: "Python", used: ["03"] },
+      { name: "FastAPI", used: ["03"] },
+      { name: "SQLAlchemy", used: ["03"] },
+      { name: "REST APIs", used: ["03"] },
+      { name: "WebSockets", used: ["05"] },
+      { name: "PostgreSQL", used: ["03"] },
+      { name: "JWT authentication", used: ["03"] },
+      { name: "Workflow state machines", used: ["03"] },
+      { name: "Supabase", used: ["04"] },
+      { name: "Docker / Compose", used: ["03"] },
     ],
   },
   {
@@ -385,19 +437,19 @@ export const strata: Stratum[] = [
     name: "Applied AI & agent systems",
     note: "Agents, document understanding, retrieval and prediction",
     items: [
-      { name: "LLM agents", used: ["01"] },
-      { name: "Agent orchestration", used: ["01"] },
-      { name: "RAG", used: ["02"] },
-      { name: "LangChain", used: ["02"] },
-      { name: "ChromaDB", used: ["02"] },
-      { name: "Sentence Transformers", used: ["02"] },
-      { name: "Document AI / OCR", used: ["02"] },
-      { name: "scikit-learn", used: ["02"] },
-      { name: "Random Forest", used: ["02"] },
-      { name: "SHAP", used: ["02"] },
-      { name: "Coding agents" },
+      { name: "LLM agents", used: ["01", "02"] },
+      { name: "Agent orchestration", used: ["01", "02"] },
+      { name: "RAG", used: ["03"] },
+      { name: "LangChain", used: ["03"] },
+      { name: "ChromaDB", used: ["03"] },
+      { name: "Sentence Transformers", used: ["03"] },
+      { name: "Document AI / OCR", used: ["03"] },
+      { name: "scikit-learn", used: ["03"] },
+      { name: "Random Forest", used: ["03"] },
+      { name: "SHAP", used: ["03"] },
+      { name: "Coding agents", used: ["02"] },
       { name: "Claude API" },
-      { name: "MCP", used: ["01"] },
+      { name: "MCP", used: ["01", "02"] },
       { name: "Prompt engineering" },
       { name: "n8n" },
       { name: "Tool integration" },

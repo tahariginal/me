@@ -13,7 +13,7 @@ export default function Work() {
           Read from the system up.
         </h2>
         <p data-reveal="fade" className="stack-title col-span-12 max-w-[40ch] text-[length:var(--type-lede)] leading-[1.45] text-fg-2 md:col-span-5">
-          Six public projects and two confidential engagements. Explore the systems behind the work, or try the interactive Minishell.
+          Seven public projects and two confidential engagements. Explore the systems behind the work, or try the interactive Minishell.
         </p>
 
         <ol className="stack-block col-span-12 md:col-span-7 md:col-start-6 md:mt-0 md:self-end">
