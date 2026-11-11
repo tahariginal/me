@@ -22,7 +22,7 @@ const holdTimes = (i: number) => {
 export default function DproDiagram() {
   return (
     <Figure
-      n="02"
+      n="03"
       title="Opportunity lifecycle"
       viewBox="0 0 640 560"
       caption="One record, five stages, four responsibilities — access and notifications follow the work"

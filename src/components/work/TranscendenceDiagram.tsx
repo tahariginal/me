@@ -16,7 +16,7 @@ export default function TranscendenceDiagram() {
   const ball = "M92 104 L320 62 L548 132 L320 180 L92 104";
   return (
     <Figure
-      n="04"
+      n="05"
       title="Event stream"
       viewBox="0 0 640 560"
       caption="Game state, chat and auth as events between clients over WebSockets"

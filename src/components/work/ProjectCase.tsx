@@ -6,11 +6,13 @@ import DproDiagram from "./DproDiagram";
 import FactoryDiagram from "./FactoryDiagram";
 import FitDiagram from "./FitDiagram";
 import MinishellTerminal from "./MinishellTerminal";
+import MobileFactoryDiagram from "./MobileFactoryDiagram";
 import TranscendenceDiagram from "./TranscendenceDiagram";
 import VamoDiagram from "./VamoDiagram";
 
 const diagrams: Record<string, ComponentType> = {
   factory: FactoryDiagram,
+  "mobile-factory": MobileFactoryDiagram,
   dpro: DproDiagram,
   vamo: VamoDiagram,
   transcendence: TranscendenceDiagram,

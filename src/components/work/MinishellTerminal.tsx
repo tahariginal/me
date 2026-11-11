@@ -148,7 +148,7 @@ export default function MinishellTerminal() {
     <figure className="dg relative flex h-full flex-col border border-line bg-bg/70">
       <div className="label flex items-center justify-between gap-4 border-b border-line px-3 py-2.5 text-fg-3">
         <span>
-          Fig. <span className="tabular text-fg-2">06</span> — Minishell, running
+          Fig. <span className="tabular text-fg-2">07</span> — Minishell, running
         </span>
         <span className="hidden items-center gap-2 sm:flex">
           <span className="size-1.5 animate-[blink_1.6s_steps(1)_infinite] bg-accent" aria-hidden="true" />

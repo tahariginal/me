@@ -21,7 +21,7 @@ export default function LivePreview({ project: p }: { project: Project }) {
           rel="noreferrer"
           className="label btn-line inline-flex h-11 items-center gap-3 border border-line-2 px-5 text-fg transition-colors duration-300 hover:text-accent-light"
         >
-          Visit landing page <span aria-hidden="true">↗</span>
+          {live.cta ?? "Visit landing page"} <span aria-hidden="true">↗</span>
           <span className="sr-only">(opens in a new tab)</span>
         </a>
       </div>

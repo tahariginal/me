@@ -7,7 +7,7 @@ const C = { x: 360, y: 150 };
 export default function FitDiagram() {
   return (
     <Figure
-      n="05"
+      n="06"
       title="Recommendation model"
       viewBox="0 0 640 320"
       caption="Six signals merge into one context, which resolves into a complete look — reusing what is already owned"

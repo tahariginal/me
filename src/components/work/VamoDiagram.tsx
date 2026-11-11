@@ -17,7 +17,7 @@ const opponents = [ [52, 428], [588, 428] ];
 export default function VamoDiagram() {
   return (
     <Figure
-      n="03"
+      n="04"
       title="Identity graph"
       viewBox="0 0 640 560"
       caption="A player at the centre of teams, matches and tournaments — phone numbers visible to teammates only"
