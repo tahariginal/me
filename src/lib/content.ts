@@ -329,15 +329,66 @@ export const projects: Project[] = [
       },
     ],
   },
+  {
+    id: "piano",
+    n: "08",
+    title: "Piano",
+    kind: "Playable 3D grand piano",
+    stack: ["Next.js", "React", "TypeScript", "three.js", "Web Audio API", "Tailwind CSS", "Vercel"],
+    lede: "A grand piano you can play in the browser, with real Yamaha C5 recordings, guided lessons, melodies and a recorder.",
+    scale: "major",
+    role: "Designed and built — audio engine, 3D instrument, input, lessons and recorder",
+    live: {
+      href: "https://piano-sand.vercel.app/",
+      label: "piano-sand.vercel.app",
+      cta: "Play the piano",
+    },
+    beats: [
+      {
+        focus: "input",
+        label: "Context",
+        body: "Number keys 1–8 play an octave, Shift adds the black keys, [ and ] change octave and Space holds the pedal. A mouse or a finger plays too, and slides across the keys.",
+      },
+      {
+        focus: "holds",
+        label: "Problem",
+        body: "The keyboard, a finger, a replay and a lesson demo can all press the same key at once. The note has to sound the moment it is struck — once, and without waiting for React or the next frame.",
+      },
+      {
+        focus: "sound",
+        label: "What I built",
+        points: [
+          "A sampler on the Web Audio API, with no audio library: 21 Yamaha C5 recordings from C2 to C7, one every minor third, so every key is at most a semitone from a real recording.",
+          "Each voice has its own filter and release, so soft strikes sound darker. Playback starts on the hammer, not on the silence at the start of the file.",
+          "A sustain pedal, a soft reverb and a limiter. Notes fire straight from the input handler, before anything is drawn.",
+          "Keys are read by position, not by character, so AZERTY, QWERTZ and Arabic layouts play the same notes.",
+        ],
+      },
+      {
+        focus: "scene",
+        label: "Instrument",
+        body: "A small grand modelled in code with three.js: notched keys on hidden pivots, strings drawn as hairlines, an open lid on its prop. It draws a frame only while something moves, so an idle piano costs nothing.",
+      },
+      {
+        focus: "timeline",
+        label: "System",
+        points: [
+          "One controller holds every note, under the name of whatever pressed it. A note sounds while at least one holder holds it, so two inputs never strike it twice.",
+          "Takes, melody demos and lesson demos become one list of timed events. The player schedules notes 120 ms ahead on the audio clock and moves the real keys.",
+          "Six guided lessons and five melodies check which notes you play and in what order, not rhythm. The recorder keeps timing, chords and the pedal.",
+        ],
+      },
+    ],
+  },
   // Public descriptions deliberately omit client names, stacks and deliverables.
   {
-    id: "confidential-01", n: "08", title: "Confidential project 01",
+    id: "confidential-01", n: "09", title: "Confidential project 01",
     kind: "Confidential work", status: "NDA", stack: [],
     lede: "Worked on a project covered by a non-disclosure agreement. Client identity, technical details and deliverables are confidential.",
     role: "Details confidential", scale: "minor", beats: [],
   },
   {
-    id: "confidential-02", n: "09", title: "Confidential project 02",
+    id: "confidential-02", n: "10", title: "Confidential project 02",
     kind: "Confidential work", status: "NDA", stack: [],
     lede: "Worked on a second project covered by a non-disclosure agreement. Client identity, technical details and deliverables are confidential.",
     role: "Details confidential", scale: "minor", beats: [],
@@ -402,12 +453,14 @@ export const strata: Stratum[] = [
     name: "Product engineering",
     note: "Above the surface — what people touch",
     items: [
-      { name: "TypeScript", used: ["02", "05"] },
+      { name: "TypeScript", used: ["02", "05", "08"] },
       { name: "JavaScript" },
-      { name: "React", used: ["02", "05"] },
+      { name: "React", used: ["02", "05", "08"] },
       { name: "React Native", used: ["04", "06"] },
-      { name: "Next.js", used: ["03"] },
+      { name: "Next.js", used: ["03", "08"] },
       { name: "Real-time systems", used: ["05"] },
+      { name: "three.js", used: ["08"] },
+      { name: "Web Audio API", used: ["08"] },
     ],
   },
   {
