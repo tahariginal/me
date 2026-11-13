@@ -7,6 +7,7 @@ import FactoryDiagram from "./FactoryDiagram";
 import FitDiagram from "./FitDiagram";
 import MinishellTerminal from "./MinishellTerminal";
 import MobileFactoryDiagram from "./MobileFactoryDiagram";
+import PianoDiagram from "./PianoDiagram";
 import TranscendenceDiagram from "./TranscendenceDiagram";
 import VamoDiagram from "./VamoDiagram";
 
@@ -18,6 +19,7 @@ const diagrams: Record<string, ComponentType> = {
   transcendence: TranscendenceDiagram,
   fit: FitDiagram,
   minishell: MinishellTerminal,
+  piano: PianoDiagram,
 };
 
 const total = String(projects.length).padStart(2, "0");

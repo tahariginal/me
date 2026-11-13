@@ -70,7 +70,7 @@ Where blue appears:
   font-size value wrapping a custom property is parsed as a colour and the headline silently falls back to 16px.
 - `--fig-h` is the height of a case study's sticky figure: half the screen on a phone, the viewport minus the nav on a desktop.
 - Each section starts with a `NN / Name` label, then a display headline, then at most a two-line lede.
-- Numbering is structural: sections `00–05`, projects `01–09`, beats `01.1`, layers `L.01`, figures `Fig. 01`.
+- Numbering is structural: sections `00–05`, projects `01–10`, beats `01.1`, layers `L.01`, figures `Fig. 01`.
 
 ## Motion
 
@@ -91,6 +91,7 @@ Each diagram is drawn from the architecture described in the CV. None is a mock 
 - **ft_transcendence**: a Pong court with the net as the server, over a sequence diagram of WebSocket events.
 - **FIT**: six signals → context → complete look, with a reuse loop.
 - **Minishell**: not a diagram — the shell itself, modelled in the browser (`src/lib/shell.ts`). Tokenizer, expansion, pipelines, redirections, heredocs and the seven builtins, driven from a real input. The stage strip above the terminal (lex → parse → exec → signals) is what the beats highlight.
+- **Piano**: one octave of keys (1–8) playing the opening of Ode to Joy → the controller where every input holds its note (keys, touch, and the player's replays and demos) → the sound first (21 recordings → lowpass → gain → bus, with a reverb send → limiter → out), then the listeners: scene, lessons and the recorder, whose takes loop back through the player.
 
 While you read, each beat highlights its part of the diagram (`data-beat` ↔ `data-k`).
 
