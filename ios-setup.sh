@@ -36,15 +36,19 @@ GTK4="$HOME/.config/gtk-4.0"
 BACKUP="$HOME/.config/ios-theme-backup/dconf-before-ios.ini"
 SHELL_VER="$(gnome-shell --version 2>/dev/null | grep -oE '[0-9]+' | head -1)"
 SHELL_VER="${SHELL_VER:-42}"
+# 1337's 4K screens run at 1x with text scaled ~1.7x: pixel sizes must follow the text or look tiny
+TEXT_SCALE="$(gsettings get org.gnome.desktop.interface text-scaling-factor 2>/dev/null)"
 
 UT='user-theme@gnome-shell-extensions.gcampax.github.com'
 SL='search-light@icedman.github.com'
 SLS=org.gnome.shell.extensions.search-light
 if [ "$SHELL_VER" -ge 45 ]; then
   RC='rounded-window-corners@fxgn'        # "Reborn" fork, GNOME 45+
+  RCS=org.gnome.shell.extensions.rounded-window-corners-reborn
   OLD_RC='rounded-window-corners@yilozt'  # original, GNOME 40-44 only
 else
   RC='rounded-window-corners@yilozt'
+  RCS=org.gnome.shell.extensions.rounded-window-corners
   OLD_RC=''
 fi
 
@@ -91,6 +95,7 @@ FAILED=()
 say()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33m[!]\033[0m %s\n' "$*"; }
 fail() { warn "$*"; FAILED+=("$*"); }
+px()   { awk -v v="$1" -v s="${TEXT_SCALE:-1}" 'BEGIN { if (s < 1) s = 1; if (s > 2) s = 2; printf "%d", v * s + 0.5 }'; }
 
 # ---------------------------------------------------------------- extensions
 add_extension_to_enabled() {   # $1 = uuid
@@ -236,6 +241,40 @@ big.new_subpixbuf((w - W) // 2, (h - H) // 2, W, H).savev(sys.argv[2], 'jpeg', [
 PY
 }
 
+make_wallpaper() {   # $1 = light | dark -> original iOS 18-style gradient at screen size, added to the slideshow
+  local out="$WALL/ios-$1/iOS18-$1.jpg" size
+  [ -s "$out" ] && return 0
+  size="$(xdpyinfo 2>/dev/null | awk '/dimensions:/ { print $2; exit }')"
+  size="${size:-3840x2160}"
+  say "Rendering iOS 18-style $1 wallpaper (${size})"
+  mkdir -p "$WALL/ios-$1"
+  python3 -I - "$1" "${size%x*}" "${size#*x}" "$out" <<'PY'
+import sys
+from PIL import Image, ImageDraw, ImageFilter, ImageChops
+mode, W, H, out = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+w, h = 480, 270                       # paint small, blur, upscale: smooth and fast
+if mode == 'light':
+    base = (236, 240, 252)
+    blobs = [((0.18, 0.80), 0.55, (255, 149, 0)), ((0.80, 0.22), 0.60, (90, 200, 250)),
+             ((0.55, 0.62), 0.45, (255, 45, 85)), ((0.10, 0.15), 0.40, (175, 82, 222)),
+             ((0.92, 0.88), 0.45, (52, 199, 89))]
+else:
+    base = (6, 8, 22)
+    blobs = [((0.20, 0.85), 0.55, (191, 64, 0)), ((0.82, 0.20), 0.60, (10, 60, 160)),
+             ((0.55, 0.65), 0.42, (160, 20, 70)), ((0.08, 0.12), 0.40, (88, 30, 140)),
+             ((0.93, 0.90), 0.40, (0, 110, 70))]
+img = Image.new('RGB', (w, h), base)
+for (cx, cy), r, col in blobs:
+    layer, mask, R = Image.new('RGB', (w, h), col), Image.new('L', (w, h), 0), r * w / 2
+    ImageDraw.Draw(mask).ellipse([cx * w - R, cy * h - R, cx * w + R, cy * h + R], fill=235)
+    img = Image.composite(layer, img, mask.filter(ImageFilter.GaussianBlur(w * 0.09)))
+img = img.filter(ImageFilter.GaussianBlur(w * 0.06)).resize((W, H), Image.BICUBIC)
+noise = Image.effect_noise((W, H), 3).convert('RGB')      # fine grain: no colour banding on 4K
+ImageChops.add(img, noise, scale=1.0, offset=-128).save(out + '.part', 'JPEG', quality=95)
+PY
+  [ -s "$out.part" ] && mv "$out.part" "$out"
+}
+
 fetch_walls() {   # $1 = dark | light, rest = image URLs; skips pictures already there
   local dir="$WALL/ios-$1" url name
   shift
@@ -284,6 +323,9 @@ setup_wallpapers() {
   fetch_walls dark  "${DARK_WALLS[@]}"
   fetch_walls light "${LIGHT_WALLS[@]}"
   for kind in light dark; do
+    make_wallpaper "$kind" || { rm -f "$WALL/ios-$kind/iOS18-$kind.jpg.part"; warn "could not render the iOS 18 $kind wallpaper (needs python3-pil)"; }
+  done
+  for kind in light dark; do
     if [ "$kind" = dark ]; then key=picture-uri-dark; else key=picture-uri; fi
     if n="$(make_slideshow "$kind")"; then
       gsettings set org.gnome.desktop.background "$key" "file://$WALL/ios-$kind.xml"
@@ -298,6 +340,89 @@ setup_wallpapers() {
 make_tmp() { TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT; }
 
 # ---------------------------------------------------------------- theme files
+ios18_css() {   # $1 = Dark | Light  -> prints iOS 18 style overrides
+  local glass border hover fg sub
+  if [ "$1" = "Light" ]; then
+    glass="rgba(246, 246, 248, 0.86)"; border="rgba(0, 0, 0, 0.08)"
+    hover="rgba(0, 0, 0, 0.06)";       fg="#1d1d1f"; sub="rgba(60, 60, 67, 0.6)"
+  else
+    glass="rgba(28, 28, 30, 0.82)";    border="rgba(255, 255, 255, 0.10)"
+    hover="rgba(255, 255, 255, 0.12)"; fg="#ffffff"; sub="rgba(235, 235, 245, 0.6)"
+  fi
+  cat <<EOF
+
+/* ===== iOS 18 look ===== */
+/* status bar: no bar, just floating text, bold clock */
+#panel, #panel:overview { background-color: transparent; box-shadow: none; }
+#panel .panel-corner { -panel-corner-background-color: transparent; }
+#panel .panel-button { border-radius: 999px; font-weight: 600; }
+#panel .panel-button:hover, #panel .panel-button:active, #panel .panel-button:checked { background-color: rgba(255, 255, 255, 0.16); }
+#panel .panel-button.clock-display .clock { font-weight: 700; font-size: 1.08em; font-feature-settings: "tnum"; }
+#panel .panel-status-indicators-box, #panel .panel-status-menu-box { spacing: $(px 6)px; }
+
+/* Control Center style menus: big radius, frosted, hairline border */
+.popup-menu-content, .datemenu-popover {
+  background-color: $glass;
+  border: 1px solid $border;
+  border-radius: $(px 26)px !important;
+  padding: $(px 10)px;
+  box-shadow: 0 $(px 12)px $(px 40)px rgba(0, 0, 0, 0.35);
+}
+.popup-menu-item { border-radius: $(px 14)px !important; padding: $(px 8)px $(px 12)px; color: $fg; }
+.popup-menu-item:hover, .popup-menu-item:focus { background-color: $hover; }
+.popup-sub-menu { background-color: transparent; border-radius: $(px 16)px; }
+.popup-separator-menu-item .popup-separator-menu-item-separator { background-color: $border; }
+
+/* calendar: today in a red circle, like the iOS Calendar app */
+.calendar .calendar-day { border-radius: 999px; }
+.calendar .calendar-today, .calendar .calendar-today:selected, .calendar .calendar-today:focus {
+  background-color: #ff3b30; color: #ffffff; font-weight: 700; border: none;
+}
+.calendar .calendar-day-heading, .calendar .calendar-month-label { font-weight: 700; }
+
+/* notifications: rounded cards like the iOS lock screen */
+.notification-banner {
+  background-color: $glass;
+  border: 1px solid $border;
+  border-radius: $(px 22)px;
+  box-shadow: 0 $(px 10)px $(px 30)px rgba(0, 0, 0, 0.30);
+}
+.message { border-radius: $(px 20)px; }
+.message .message-title { font-weight: 600; color: $fg; }
+.message .message-body { color: $sub; }
+
+/* overview search: pill field */
+.search-entry {
+  border-radius: 999px;
+  padding: $(px 8)px $(px 18)px;
+  border: 1px solid $border;
+  background-color: $hover;
+}
+
+/* volume/brightness HUD (top center, like the Dynamic Island), Alt+Tab, dialogs */
+.osd-window {
+  border-radius: $(px 30)px; padding: $(px 18)px $(px 26)px; margin-top: $(px 12)px;
+  background-color: $glass; border: 1px solid $border;
+  box-shadow: 0 $(px 10)px $(px 30)px rgba(0, 0, 0, 0.30);
+}
+.osd-window .level { height: $(px 8)px; border-radius: 999px; }
+.switcher-list { border-radius: $(px 28)px; background-color: $glass; border: 1px solid $border; }
+.switcher-list .item-box { border-radius: $(px 18)px; }
+.modal-dialog { border-radius: $(px 26)px; background-color: $glass; border: 1px solid $border; }
+.modal-dialog .modal-dialog-button { border-radius: $(px 14)px; font-weight: 600; }
+.modal-dialog .modal-dialog-button:default { background-color: #0a84ff; color: #ffffff; }
+
+/* overview: window titles as pills, squircle app grid like the iOS home screen */
+.window-caption {
+  border-radius: 999px; padding: $(px 4)px $(px 14)px;
+  background-color: $glass; color: $fg; text-shadow: none;
+}
+.icon-grid .overview-tile, .app-folder-dialog .overview-tile { border-radius: $(px 22)px; }
+.app-folder-icon { border-radius: $(px 22)px; }
+.app-folder-dialog { border-radius: $(px 34)px; background-color: $glass; }
+EOF
+}
+
 apply_shell_css_tweaks() {
   local t css
   for t in Dark Light; do
@@ -305,23 +430,24 @@ apply_shell_css_tweaks() {
     [ -f "$css" ] || continue
     [ -f "$css.orig" ] || cp "$css" "$css.orig"
     cp "$css.orig" "$css"            # start clean every time, then append tweaks
-    cat >> "$css" <<'EOF'
+    cat >> "$css" <<EOF
 
 /* ===== iOS dock tweaks ===== */
 #dashtodockContainer.bottom.shrink.shrink #dash .dash-background,
 #dashtodockContainer.bottom.bottom #dash .dash-background {
-  border-radius: 30px;
+  border-radius: $(px 34)px;
   border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
-  margin-bottom: 14px;
-  padding: 6px;
+  box-shadow: 0 $(px 10)px $(px 30)px rgba(0, 0, 0, 0.30);
+  margin-bottom: $(px 14)px;
+  padding: $(px 6)px;
 }
-#dashtodockContainer.bottom.shrink.shrink #dash #dashtodockDashContainer { padding: 8px; }
+#dashtodockContainer.bottom.shrink.shrink #dash #dashtodockDashContainer { padding: $(px 8)px; }
 #dashtodockContainer.bottom.shrink.shrink #dash .dash-item-container .app-well-app,
-#dashtodockContainer.bottom.shrink.shrink #dash .dash-item-container .show-apps { padding: 4px 6px 6px 6px; }
+#dashtodockContainer.bottom.shrink.shrink #dash .dash-item-container .show-apps { padding: $(px 4)px $(px 6)px $(px 6)px $(px 6)px; }
 #dashtodockContainer #dash .app-well-app .overview-icon,
-#dashtodockContainer #dash .show-apps .overview-icon { border-radius: 16px; }
+#dashtodockContainer #dash .show-apps .overview-icon { border-radius: $(px 18)px; }
 EOF
+    ios18_css "$t" >> "$css"
     if [ "$t" = "Light" ]; then
       cat >> "$css" <<'EOF'
 
@@ -329,8 +455,7 @@ EOF
 #overviewGroup .overview-icon .overview-label,
 .icon-grid .overview-icon .overview-label,
 .app-folder-dialog .overview-icon .overview-label,
-.workspace-thumbnails .overview-label,
-.window-caption {
+.workspace-thumbnails .overview-label {
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
@@ -343,6 +468,13 @@ EOF
 # GTK4 / libadwaita apps (Files, Settings, Text Editor...) ignore the gtk-theme setting.
 # They only read ~/.config/gtk-4.0/gtk.css, so unpack the theme's CSS and link it there.
 LIBADW_FILES=(gtk.css gtk-dark.css assets windows-assets)
+OLD_GTK4_MARK="/* managed by ios-setup.sh */"   # an older version wrote a one-line gtk.css with this mark
+
+drop_old_gtk4_import() {
+  [ -f "$GTK4/gtk.css" ] && [ ! -L "$GTK4/gtk.css" ] && grep -qF "$OLD_GTK4_MARK" "$GTK4/gtk.css" \
+    && rm -f "$GTK4/gtk.css"
+  return 0
+}
 
 libadwaita_extract() {
   local t src out f rel
@@ -365,6 +497,7 @@ libadwaita_link() {   # $1 = Dark | Light
   local src="$THEMES/WhiteSur-$1/gtk-4.0/libadwaita" n
   [ -f "$src/gtk.css" ] || return 0
   mkdir -p "$GTK4"
+  drop_old_gtk4_import
   for n in "${LIBADW_FILES[@]}"; do
     [ -e "$src/$n" ] || continue
     if [ -e "$GTK4/$n" ] && [ ! -L "$GTK4/$n" ]; then   # your own file: keep a copy
@@ -377,12 +510,34 @@ libadwaita_link() {   # $1 = Dark | Light
 
 libadwaita_unlink() {
   local n
+  drop_old_gtk4_import
   for n in "${LIBADW_FILES[@]}"; do
     if [ -L "$GTK4/$n" ] && [[ "$(readlink "$GTK4/$n")" == "$THEMES"/WhiteSur-* ]]; then
       rm "$GTK4/$n"
     fi
     if [ -e "$GTK4/$n.bak-ios" ] && [ ! -e "$GTK4/$n" ]; then mv "$GTK4/$n.bak-ios" "$GTK4/$n"; fi
   done
+}
+
+add_app_folders() {   # iOS App Library: group the app grid by category
+  local base=/org/gnome/desktop/app-folders/folders id name cats cur
+  while IFS='|' read -r id name cats; do
+    gsettings set "org.gnome.desktop.app-folders.folder:$base/$id/" name "$name"
+    gsettings set "org.gnome.desktop.app-folders.folder:$base/$id/" categories "$cats"
+    gsettings set "org.gnome.desktop.app-folders.folder:$base/$id/" translate false
+  done <<'EOF'
+ios-dev|Developer|['Development', 'IDE']
+ios-office|Productivity|['Office']
+ios-create|Creativity|['Graphics']
+ios-media|Entertainment|['AudioVideo', 'Audio', 'Video', 'Game']
+EOF
+  cur="$(gsettings get org.gnome.desktop.app-folders folder-children)"
+  gsettings set org.gnome.desktop.app-folders folder-children "$(python3 -I - "$cur" <<'PY'
+import ast, sys
+lst = ast.literal_eval(sys.argv[1].replace('@as ', ''))
+print(lst + [x for x in ('ios-dev', 'ios-office', 'ios-create', 'ios-media') if x not in lst])
+PY
+)"
 }
 
 # ---------------------------------------------------------------- mode
@@ -404,9 +559,13 @@ switch_mode() {   # $1 = dark | light
   if [ "$1" = "light" ]; then
     ext_set "$SL" "$SLS" background-color '(0.96, 0.96, 0.97, 0.90)'
     ext_set "$SL" "$SLS" border-color '(0.0, 0.0, 0.0, 0.12)'
+    ext_set "$SL" "$SLS" text-color       '(0.11, 0.11, 0.12, 1.0)'
+    ext_set "$SL" "$SLS" entry-text-color '(0.11, 0.11, 0.12, 1.0)'
   else
     ext_set "$SL" "$SLS" background-color '(0.11, 0.11, 0.12, 0.90)'
     ext_set "$SL" "$SLS" border-color '(1.0, 1.0, 1.0, 0.15)'
+    ext_set "$SL" "$SLS" text-color       '(1.0, 1.0, 1.0, 1.0)'
+    ext_set "$SL" "$SLS" entry-text-color '(1.0, 1.0, 1.0, 1.0)'
   fi
 
   # shell theme (top bar, dock, overview): set it empty, then back, so GNOME reloads the CSS
@@ -516,6 +675,10 @@ def keys(path):
     return out
 TOUCHED = ('/org/gnome/desktop/interface/', '/org/gnome/desktop/wm/preferences/',
            '/org/gnome/desktop/background/', '/org/gnome/mutter/dynamic-workspaces',
+           '/org/gnome/mutter/center-new-windows', '/org/gnome/desktop/app-folders/',
+           '/org/gnome/desktop/peripherals/touchpad/tap-to-click',
+           '/org/gnome/desktop/peripherals/touchpad/natural-scroll',
+           '/org/gnome/shell/keybindings/toggle-overview',
            '/org/gnome/shell/enabled-extensions', '/org/gnome/shell/disable-user-extensions',
            '/org/gnome/shell/extensions/', '/org/gnome/desktop/wm/keybindings/switch-input-source')
 for k in sorted(keys(sys.argv[2]) - keys(sys.argv[1])):
@@ -617,6 +780,10 @@ gsettings set org.gnome.mutter dynamic-workspaces false
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 4
 gsettings set org.gnome.desktop.interface enable-animations true
 gsettings set org.gnome.desktop.interface enable-hot-corners false
+gsettings set org.gnome.mutter center-new-windows true                 # apps open centered, like iPad
+gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
+add_app_folders
 
 # 8. clock like iPhone: time only
 gsettings set org.gnome.desktop.interface clock-format '24h'
@@ -630,7 +797,8 @@ gsettings set $D extend-height false
 gsettings set $D dock-fixed false
 gsettings set $D autohide true
 gsettings set $D intellihide true
-gsettings set $D dash-max-icon-size 56
+DOCK_ICON="$(px 42)"; [ "$DOCK_ICON" -gt 128 ] && DOCK_ICON=128   # ~72px on 4K; dock allows up to 128
+gsettings set $D dash-max-icon-size "$DOCK_ICON"
 gsettings set $D apply-custom-theme false
 gsettings set $D custom-theme-shrink true
 gsettings set $D transparency-mode 'FIXED'
@@ -662,7 +830,7 @@ install_weather_app                                                      # Weath
 install_extension 'weatheroclock@CleoMenezesJr.github.io'                # weather next to the clock
 
 B='blur-my-shell@aunetx'
-ext_set $B org.gnome.shell.extensions.blur-my-shell.panel        blur true
+ext_set $B org.gnome.shell.extensions.blur-my-shell.panel        blur false   # iOS status bar: text floats on the wallpaper
 ext_set $B org.gnome.shell.extensions.blur-my-shell.overview     blur true
 ext_set $B org.gnome.shell.extensions.blur-my-shell.appfolder    blur true
 ext_set $B org.gnome.shell.extensions.blur-my-shell.dash-to-dock blur false   # draws a square box behind the round dock
@@ -672,14 +840,28 @@ JS=org.gnome.shell.extensions.just-perfection
 ext_set $J $JS activities-button false
 ext_set $J $JS app-menu false
 ext_set $J $JS clock-menu-position 2          # clock on the left, like iPhone
-ext_set $J $JS panel-size 36
-ext_set $J $JS panel-icon-size 18
-ext_set $J $JS panel-indicator-padding-size 8
+ext_set $J $JS panel-size "$(px 34)"
+ext_set $J $JS panel-icon-size "$(px 16)"
+ext_set $J $JS panel-indicator-padding-size "$(px 6)"
+ext_set $J $JS keyboard-layout false          # one layout: no "en" badge in the status bar
+ext_set $J $JS accessibility-menu false       # still in Settings > Accessibility
 ext_set $J $JS workspace-popup false
 ext_set $J $JS ripple-box false
 ext_set $J $JS startup-status 0
 ext_set $J $JS notification-banner-position 1 # banners top-center
+ext_set $J $JS osd-position 2                 # volume/brightness HUD top-center
+ext_set $J $JS animation 4                    # a bit snappier (0.8x), still fluid
+ext_set $J $JS workspace-background-corner-size "$(px 28)"
 ext_set $J $JS theme false
+
+# windows: iOS-style continuous (squircle) corners. The Reborn fork (GNOME 45+) uses camelCase keys.
+if [ "$RC" = 'rounded-window-corners@fxgn' ]; then
+  ext_set $RC $RCS global-rounded-corner-settings \
+    "{'padding': <{'left': <uint32 1>, 'right': <uint32 1>, 'top': <uint32 1>, 'bottom': <uint32 1>}>, 'keepRoundedCorners': <{'maximized': <false>, 'fullscreen': <false>}>, 'borderRadius': <uint32 $(px 12)>, 'smoothing': <0.3>, 'borderColor': <[0.5, 0.5, 0.5, 1.0]>, 'enabled': <true>}"
+else
+  ext_set $RC $RCS global-rounded-corner-settings \
+    "{'padding': <{'left': <uint32 1>, 'right': <uint32 1>, 'top': <uint32 1>, 'bottom': <uint32 1>}>, 'keep_rounded_corners': <{'maximized': <false>, 'fullscreen': <false>}>, 'border_radius': <uint32 $(px 12)>, 'smoothing': <0.3>}"
+fi
 
 # Search Light: Super+Space like Cmd+Space on a Mac. GNOME uses Super+Space to switch keyboard
 # layout, and then Search Light cannot grab it. With one layout that key does nothing, so take it.
@@ -697,6 +879,15 @@ ext_set $SL $SLS shortcut-search "['$SL_KEY']"
 ext_set $SL $SLS border-radius 4.0            # 22px round corners
 ext_set $SL $SLS border-thickness 1           # thin edge like Spotlight (color comes from switch_mode)
 ext_set $SL $SLS blur-background false        # its "blur" is a blocky 10%-size copy of the wallpaper
+ext_set $SL $SLS show-panel-icon false
+ext_set $SL $SLS scale-width      0.10
+ext_set $SL $SLS scale-height     0.20
+ext_set $SL $SLS entry-font-size  3           # 20pt search text
+ext_set $SL $SLS font-size        1           # 16pt results
+if [ ! -d "$EXT/$SL" ] && [ ! -d "$SYS_EXT/$SL" ] && [ "$SL_KEY" = '<Super>space' ]; then
+  warn "Search Light unavailable: Super+Space opens the overview search instead"
+  gsettings set org.gnome.shell.keybindings toggle-overview "['<Super>s', '<Super>space']"
+fi
 
 Q='quick-settings-tweaks@qwreey'
 ext_set $Q org.gnome.shell.extensions.quick-settings-tweaks menu-animation-enabled true   # blur behind the menu, like Control Center
@@ -710,7 +901,7 @@ chrome_theme
 
 echo
 if [ ${#FAILED[@]} -eq 0 ]; then
-  say "Done! Your session now looks like iOS ($MODE mode)."
+  say "Done! Your session now looks like iOS 18 ($MODE mode)."
 else
   warn "Finished, but some steps failed:"
   printf '      - %s\n' "${FAILED[@]}"
@@ -722,6 +913,7 @@ cat <<EOF
   Wallpaper:              new 4K picture every 5 min ($0 wallpapers = shuffle again)
   Search like Spotlight:  $SL_LABEL
   Weather by the clock:   open the Weather app once and add your city
+  Changed text size in Settings? Run this script again so sizes follow it.
   Switch mode later:  $0 dark   |   $0 light
   Undo everything:    $0 restore
 
